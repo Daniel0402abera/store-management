@@ -1,9 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { MaterialReactTable } from 'material-react-table';
-import { Box, IconButton, Typography } from '@mui/material';
-import { Edit as EditIcon, Delete as DeleteIcon, } from '@mui/icons-material';
+import { Box, IconButton, Typography, Paper, Button } from '@mui/material';
+import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,11 +14,24 @@ const useStyles = makeStyles((theme) => ({
   rowActions: {
     display: 'flex',
     flexWrap: 'nowrap',
-    gap: '40px',
+    gap: '20px',
   },
   actionButton: {
     backgroundColor: 'whiteSmoke',
-  },    
+  },
+  tablePaper: {
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+    borderRadius: '8px',
+  },
+  rowBackground: {
+    backgroundColor: '#f5f5f5',
+    borderRadius: '8px',
+    padding: '8px',
+  },
+  addButton: {
+    backgroundColor: 'primary',
+    color: 'white',
+  },
 }));
 
 export const ItemList = () => {
@@ -47,19 +59,19 @@ export const ItemList = () => {
     () => [
       {
         accessorKey: 'firstName',
-        header: 'First Name',
+        header: 'Name',
       },
       {
         accessorKey: 'lastName',
-        header: 'Last Name',
+        header: 'Price',
       },
       {
         accessorKey: 'address',
-        header: 'Address',
+        header: 'Quantity',
       },
       {
         accessorKey: 'city',
-        header: 'City',
+        header: 'Description',
       },
       {
         accessorKey: 'state',
@@ -71,51 +83,67 @@ export const ItemList = () => {
 
   const [data, setData] = useState(initialData);
 
+  const handleAddItem = () => {
+    // Add a new item to the data array
+    const newItem = {
+      firstName: 'New',
+      lastName: 'Item',
+      address: '123 New Address',
+      city: 'New City',
+      state: 'New State',
+    };
+    setData([...data, newItem]);
+  };
+
   return (
     <div className={classes.root}>
-      <MaterialReactTable
-        columns={columns}
-        data={data}
-        enableRowActions
-        tableClassName={classes.tableContainer}
-        renderDetailPanel={({ row }) => (
-          <Box
-            sx={{
-              display: 'grid',
-              margin: 'auto',
-              gridTemplateColumns: '1fr 1fr',
-              width: '100%',
-            }}
+        <Box mt={2} textAlign="center">
+          <Button
+            className={classes.addButton}
+            startIcon={<AddIcon />}
+            onClick={handleAddItem}
           >
-            <Typography>Address: {row.original.address}</Typography>
-            <Typography>City: {row.original.city}</Typography>
-            <Typography>State: {row.original.state}</Typography>
-          </Box>
-        )}
-        renderRowActions={({ row, table }) => (
-          <Box className={classes.rowActions}>
-            <IconButton
-              className={classes.actionButton}
-              color="secondary"
-              onClick={() => {
-                table.setEditingRow(row);
-              }}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              className={classes.actionButton}
-              color="error"
-              onClick={() => {
-                const newData = data.filter((item, index) => index !== row.index);
-                setData(newData);
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        )}
-      />
+            Add New Item
+          </Button>
+        </Box>
+      <Paper className={classes.tablePaper}>
+        <MaterialReactTable
+          columns={columns}
+          data={data}
+          enableRowActions
+          tableClassName={classes.tableContainer}
+          renderDetailPanel={({ row }) => (
+            <Box className={classes.rowBackground}>
+              <Typography>Address: {row.original.address}</Typography>
+              <Typography>City: {row.original.city}</Typography>
+              <Typography>State: {row.original.state}</Typography>
+            </Box>
+          )}
+          renderRowActions={({ row, table }) => (
+            <Box className={classes.rowActions}>
+              <IconButton
+                className={classes.actionButton}
+                color="secondary"
+                onClick={() => {
+                  table.setEditingRow(row);
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                className={classes.actionButton}
+                color="error"
+                onClick={() => {
+                  const newData = data.filter((item, index) => index !== row.index);
+                  setData(newData);
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
+          )}
+        />
+      </Paper>
     </div>
   );
 };
