@@ -10,7 +10,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 450,
   bgcolor: 'background.paper',
   border: '2px solid whiteSmoke',
   boxShadow: 24,
@@ -64,7 +64,7 @@ export default function AddModal({ buttonName, title, inputFields, actionLabel, 
                }));
              }}
              fullWidth
-             sx={{ mt: field.type !== 'date' ? 2 : 0 }} // Adjust the mt (margin-top) as needed
+             sx={{ mt: field.type !== 'date' ? 2 : 0 }} 
            />
          </div>
         ))}
