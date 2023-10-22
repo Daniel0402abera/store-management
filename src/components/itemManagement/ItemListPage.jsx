@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { MaterialReactTable } from 'material-react-table';
-import { Box, IconButton, Typography, Paper, Button } from '@mui/material';
-import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
+import { Box, IconButton, Typography, Paper, } from '@mui/material';
+import { Edit as EditIcon, Delete as DeleteIcon,  } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
+import AddModal from '../common/AddModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,13 +99,19 @@ export const ItemList = () => {
   return (
     <div className={classes.root}>
         <Box mt={2} textAlign="center">
-          <Button
-            className={classes.addButton}
-            startIcon={<AddIcon />}
-            onClick={handleAddItem}
-          >
-            Add New Item
-          </Button>
+        <AddModal
+            buttonName='Add Item'
+            title="Add Item"
+            inputFields={[
+                { label: 'Name', stateVariable: 'itemName' },
+                { label: 'Price', stateVariable: 'itemPrice' },
+                { label: 'Quantity', stateVariable: 'itemQuantity' },
+                { label: 'Description', stateVariable: 'itemDescription' },
+            ]}
+            actionLabel="Add"
+            onAdd={handleAddItem}
+/>
+
         </Box>
       <Paper className={classes.tablePaper}>
         <MaterialReactTable
