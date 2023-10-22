@@ -1,30 +1,35 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockIcon from '@mui/icons-material/Lock';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
-
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockIcon from "@mui/icons-material/Lock";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useMutation, useQueryClient } from "react-query";
+import { loginUser } from "../../services/authQueries";
+import { useAuth } from "../../context/AuthContext";
+import jwt from "jsonwebtoken";
+import { useFormik } from "formik";
 
 function Copyright(props) {
-  
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        
-      </Link>{' '}
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://mui.com/"></Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -34,14 +39,30 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { login } = useAuth();
+
+  const { mutate: loginMutation,isLoading } = useMutation(loginUser, {
+    onSuccess: (data) => {
+      const decodedToken = jwt.decode(data.accessToken);
+      console.log(data)
+      login({ user: decodedToken, accessToken: data.accessToken });
+      queryClient.invalidateQueries("userData"); // Optionally, refetch user data
+    },
+  });
+
+  
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+  });
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    loginMutation(formik.values);
+    console.log(formik.values)
   };
 
   return (
@@ -51,18 +72,23 @@ export default function SignIn() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockIcon/>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
@@ -72,6 +98,8 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={formik.handleChange}
+              value={formik.values.email}
             />
             <TextField
               margin="normal"
@@ -81,20 +109,24 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
               autoComplete="current-password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={() => navigate('/store')}
+              onClick={handleSubmit}
             >
-              Sign In
+              {isLoading?'Loading...':"Sign In"}
+              
             </Button>
             <Grid container>
               <Grid item xs>
