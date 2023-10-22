@@ -110,7 +110,7 @@ export const ItemList = () => {
             ]}
             actionLabel="Add"
             onAdd={handleAddItem}
-/>
+        />
 
         </Box>
       <Paper className={classes.tablePaper}>

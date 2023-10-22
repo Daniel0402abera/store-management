@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import { Box, IconButton, Typography } from '@mui/material';
+import AddModal from '../common/AddModal';
 import { Edit as EditIcon, Delete as DeleteIcon , Email as EmailIcon } from '@mui/icons-material';
 // import { data as initialData } from './makeData';
 
@@ -89,9 +90,35 @@ export const StoreListPage = () => {
   );
 
   const [data, setData] = useState(initialData);
-
+  const handleAddStore = () => {
+    // Add a new item to the data array
+    const newItem = {
+      firstName: 'New',
+      lastName: 'Item',
+      address: '123 New Address',
+      city: 'New City',
+      state: 'New State',
+    };
+    setData([...data, newItem]);
+  };
   return (
-    <MaterialReactTable
+    <div>
+       <Box mt={2} textAlign="center">
+        <AddModal
+            buttonName='Add Store'
+            title="Add New Store"
+            inputFields={[
+                { label: 'Name', stateVariable: 'itemName' },
+                { label: 'Location', stateVariable: 'location' },
+                { label: 'Contact', stateVariable: 'Contact' },
+                { label: 'Opening Date', stateVariable: 'Open Date', type: 'date' },
+            ]}
+            actionLabel="Add"
+            onAdd={handleAddStore}
+        />
+
+        </Box>
+      <MaterialReactTable
       columns={columns}
       data={data}
       enableRowActions
@@ -142,6 +169,7 @@ export const StoreListPage = () => {
         </Box>
       )}
     />
+    </div>
   );
 };
 

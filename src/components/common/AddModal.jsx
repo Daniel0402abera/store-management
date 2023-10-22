@@ -46,20 +46,27 @@ export default function AddModal({ buttonName, title, inputFields, actionLabel, 
           {title}
         </Typography>
         {inputFields.map((field, index) => (
-          <TextField
-            key={index}
-            label={field.label}
-            value={inputValues[field.stateVariable]}
-            onChange={(e) => {
-              const newValue = e.target.value;
-              setInputValues((prevValues) => ({
-                ...prevValues,
-                [field.stateVariable]: newValue,
-              }));
-            }}
-            fullWidth
-            sx={{ mt: 2 }}
-          />
+           <div key={index}>
+           {field.type === 'date' && (
+             <Typography variant="body1" sx={{ mt: 2 }}>
+               {field.label}
+             </Typography>
+           )}
+           <TextField
+             label={field.type !== 'date' ? field.label : ''}
+             value={inputValues[field.stateVariable]}
+             type={field.type || 'text'}
+             onChange={(e) => {
+               const newValue = e.target.value;
+               setInputValues((prevValues) => ({
+                 ...prevValues,
+                 [field.stateVariable]: newValue,
+               }));
+             }}
+             fullWidth
+             sx={{ mt: field.type !== 'date' ? 2 : 0 }} // Adjust the mt (margin-top) as needed
+           />
+         </div>
         ))}
         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
           <Button onClick={handleClose} sx={{ marginRight: 2 }}>
