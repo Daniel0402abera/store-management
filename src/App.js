@@ -1,7 +1,7 @@
 import "./App.css";
 import Dashboard from "./Dashboard";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import StorePage from "./pages/Store";
+import StorePage from "./pages/StorePage";
 import ItemPage from "./pages/ItemPage";
 import InventoryPage from "./pages/InventoryPage";
 import PurchasePage from "./pages/PurchasePage";
@@ -9,6 +9,7 @@ import LoginPage from "./components/authentication/LoginPage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoutes from "./services/privateRoutes";
+import UserPage from "./pages/UserPage";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,10 @@ function App() {
                   <Route
                     path="/dashboard/purchase"
                     element={<PurchasePage />}
+                  />
+                  <Route
+                    path="/dashboard/user"
+                    element={<UserPage/>}
                   />
                 </Route>
               </Route>

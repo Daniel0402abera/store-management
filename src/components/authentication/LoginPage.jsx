@@ -48,6 +48,8 @@ export default function SignIn() {
     mutate: loginMutation,
     isLoading,
     data,
+    isError,
+    error
   } = useMutation(loginUser, {
     onSuccess: (data) => {
       const decodedToken = jwt.decode(data?.access_token);
@@ -130,11 +132,12 @@ export default function SignIn() {
               value={formik.values.password}
               autoComplete="current-password"
             />
+            
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-
+              
             <Button
               type="submit"
               fullWidth
@@ -144,6 +147,12 @@ export default function SignIn() {
             >
               {isLoading ? "Loading..." : "Sign In"}
             </Button>
+            <Typography  variant="h6" component="h2">
+            <p  style={{margin:'0px',color:'red'}}>
+            {isError ? error.message : ""}
+            </p>
+            
+          </Typography>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">

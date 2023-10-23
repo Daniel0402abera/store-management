@@ -32,6 +32,12 @@ const menus = [
     title: "Purchase",
     icon: <HotelIcon />,
   },
+  {
+    index: 4,
+    link: "/dashboard/user",
+    title: "User",
+    icon: <PeopleIcon />,
+  },
  
 ];
 

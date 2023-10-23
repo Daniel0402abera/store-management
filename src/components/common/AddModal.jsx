@@ -48,7 +48,7 @@ export default function AddModal({
   
   const handleAdd = async () => {
     try {
-      const responseData = await mutate(inputValues);
+      const responseData = mutate(inputValues);
       console.log("Response from server:", responseData);
       // Handle the response data as needed
     } catch (error) {
