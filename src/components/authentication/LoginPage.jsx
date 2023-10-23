@@ -63,7 +63,7 @@ export default function SignIn() {
   const handleSubmit =  (event) => {
     event.preventDefault();
     loginMutation(formik.values);
-    navigate("/store");
+    // navigate("/store");
     console.log(formik.values)
   };
 
