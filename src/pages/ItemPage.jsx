@@ -3,7 +3,7 @@ import ItemList from '../components/itemManagement/ItemListPage'
 
 function ItemPage() {
   return (
-    <div>
+    <div >
       <ItemList/>
     </div>
   )

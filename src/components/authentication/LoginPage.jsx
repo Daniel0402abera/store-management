@@ -47,22 +47,20 @@ export default function SignIn() {
 
   const { mutate: loginMutation,isLoading } = useMutation(loginUser, {
     onSuccess: (data) => {
-      const decodedToken = jwt.decode(data.accessToken);
-      console.log(data)
-      login({ user: decodedToken, accessToken: data.accessToken });
+      const decodedToken = jwt.decode(data?.access_token);
+      const decodedUser = {usename: decodedToken.sub, role: decodedToken?.role[0]};
+      console.log(decodedUser)
+      login({ user: decodedUser, accessToken: data?.access_token });
       queryClient.invalidateQueries("userData"); // Optionally, refetch user data
     },
   });
-
-  
-
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
-  const handleSubmit = (event) => {
+  const handleSubmit =  (event) => {
     event.preventDefault();
     loginMutation(formik.values);
     navigate("/store");
@@ -97,13 +95,13 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
               onChange={formik.handleChange}
-              value={formik.values.email}
+              value={formik.values.username}
             />
             <TextField
               margin="normal"
