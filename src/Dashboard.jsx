@@ -47,7 +47,7 @@ const Drawer = styled(MuiDrawer, {
 const defaultTheme = createTheme();
 const drawerStyle = {
   ".MuiDrawer-paper": {
-    backgroundColor: "#F2F2F2",
+    backgroundColor: "#D5D7DF",
     marginTop: "5px",
     paddingX: 2,
   },
@@ -81,7 +81,7 @@ export default function Dashboard() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CustomAppBar />
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", background: '#D5D7DF' }}>
         <CssBaseline />
 
         <Drawer variant="permanent" open={open} sx={drawerStyle}>

@@ -4,12 +4,14 @@ import { Box, IconButton, Typography, Paper, } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon,  } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import AddModal from '../common/AddModal';
+import { darken } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
   },
   tableContainer: {
+    backgroundColor: 'red',
     marginBottom: theme.spacing(2),
   },
   rowActions: {
@@ -21,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'whiteSmoke',
   },
   tablePaper: {
+    
     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
     borderRadius: '8px',
   },
   rowBackground: {
-    backgroundColor: '#f5f5f5',
     borderRadius: '8px',
     padding: '8px',
   },
@@ -118,6 +120,29 @@ export const ItemList = () => {
           columns={columns}
           data={data}
           enableRowActions
+          muiTableHeadCellProps={{
+           
+            sx: {
+              fontWeight: 'bold',
+              fontSize: '15px',
+            
+            },
+          }}
+          muiTablePaperProps={{
+            elevation: 0,
+            sx: {
+              borderRadius: '0',
+              border: '0.5px dashed #D5D7DF',
+            },
+          }}
+          muiTableBodyProps={{
+            sx: (theme) => ({
+              '& tr:nth-of-type(odd)': {
+                backgroundColor: darken(theme.palette.background.default, 0.04),
+              },
+            }),
+          }}
+          
           tableClassName={classes.tableContainer}
           renderDetailPanel={({ row }) => (
             <Box className={classes.rowBackground}>
@@ -126,6 +151,7 @@ export const ItemList = () => {
               <Typography>State: {row.original.state}</Typography>
             </Box>
           )}
+
           renderRowActions={({ row, table }) => (
             <Box className={classes.rowActions}>
               <IconButton
