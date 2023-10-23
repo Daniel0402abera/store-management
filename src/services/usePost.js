@@ -6,7 +6,7 @@ const postData = async (endpoint, token, data) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        // 'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
       },
     };
     const response = await axios.post(endpoint, data, config);

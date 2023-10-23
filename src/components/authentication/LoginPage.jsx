@@ -17,6 +17,7 @@ import { loginUser } from "../../services/authQueries";
 import { useAuth } from "../../context/AuthContext";
 import jwt from "jsonwebtoken";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -39,6 +40,8 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { login } = useAuth();
 
@@ -62,6 +65,7 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     loginMutation(formik.values);
+    navigate("/store");
     console.log(formik.values)
   };
 

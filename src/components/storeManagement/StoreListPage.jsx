@@ -4,11 +4,13 @@ import { Box, IconButton, Typography } from '@mui/material';
 import AddModal from '../common/AddModal';
 import { Edit as EditIcon, Delete as DeleteIcon , Email as EmailIcon } from '@mui/icons-material';
 // import { data as initialData } from './makeData';
+import {baseURL } from '../../constants';
 
 
 
 
 export const StoreListPage = () => {
+
     const initialData = [
         {
           firstName: 'Dylan',
@@ -90,6 +92,7 @@ export const StoreListPage = () => {
   );
 
   const [data, setData] = useState(initialData);
+
   const handleAddStore = () => {
     // Add a new item to the data array
     const newItem = {
@@ -101,6 +104,8 @@ export const StoreListPage = () => {
     };
     setData([...data, newItem]);
   };
+
+  
   return (
     <div>
        <Box mt={2} textAlign="center">
@@ -108,13 +113,15 @@ export const StoreListPage = () => {
             buttonName='Add Store'
             title="Add New Store"
             inputFields={[
-                { label: 'Name', stateVariable: 'itemName' },
+                { label: 'Name', stateVariable: 'storeName' },
                 { label: 'Location', stateVariable: 'location' },
-                { label: 'Contact', stateVariable: 'Contact' },
-                { label: 'Opening Date', stateVariable: 'Open Date', type: 'date' },
+                { label: 'Contact', stateVariable: 'contactInformation' },
+                { label: 'Opening Date', stateVariable: 'openingDate', type: 'date' },
+                { label: 'Store Type', stateVariable: 'storeType', type:'select' },
             ]}
-            actionLabel="Add"
+            actionLabel="Add Store"
             onAdd={handleAddStore}
+            endpoint={`${baseURL}api/v1/stores`}
         />
 
         </Box>
