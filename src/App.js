@@ -8,6 +8,7 @@ import PurchasePage from "./pages/PurchasePage";
 import LoginPage from "./components/authentication/LoginPage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./context/AuthContext";
+import PrivateRoutes from "./services/privateRoutes";
 
 const queryClient = new QueryClient();
 
@@ -19,11 +20,19 @@ function App() {
           <AuthProvider>
             <Routes>
               <Route path="/" element={<LoginPage />} />
-              <Route path="/" element={<Dashboard />}>
-                <Route path="/store" element={<StorePage />} />
-                <Route path="/item" element={<ItemPage />} />
-                <Route path="/inventory" element={<InventoryPage />} />
-                <Route path="/purchase" element={<PurchasePage />} />
+              <Route element={<PrivateRoutes />}>
+                <Route path="/dashboard" element={<Dashboard />}>
+                  <Route path="/dashboard/store" element={<StorePage />} />
+                  <Route path="/dashboard/item" element={<ItemPage />} />
+                  <Route
+                    path="/dashboard/inventory"
+                    element={<InventoryPage />}
+                  />
+                  <Route
+                    path="/dashboard/purchase"
+                    element={<PurchasePage />}
+                  />
+                </Route>
               </Route>
             </Routes>
           </AuthProvider>

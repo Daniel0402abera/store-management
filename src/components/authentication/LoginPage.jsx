@@ -40,31 +40,46 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { login } = useAuth();
 
-  const { mutate: loginMutation,isLoading } = useMutation(loginUser, {
+  const {
+    mutate: loginMutation,
+    isLoading,
+    data,
+  } = useMutation(loginUser, {
     onSuccess: (data) => {
       const decodedToken = jwt.decode(data?.access_token);
-      const decodedUser = {usename: decodedToken.sub, role: decodedToken?.role[0]};
-      console.log(decodedUser)
-      login({ user: decodedUser, accessToken: data?.access_token });
+      const decodedUser = {
+        usename: decodedToken.sub,
+        role: decodedToken?.role[0],
+      };
+      login({ user: decodedUser });
       queryClient.invalidateQueries("userData"); // Optionally, refetch user data
     },
   });
+  React.useEffect(() => {
+    if (data) {
+      navigate("/dashboard/store");
+    }
+  }, [data, navigate]);
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
   });
-  const handleSubmit =  (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     loginMutation(formik.values);
-    // navigate("/store");
-    console.log(formik.values)
+    await console.log(data);
+    if (data) {
+      console.log(data);
+      navigate("/dashboard/store");
+    }
+
+    console.log(formik.values);
   };
 
   return (
@@ -127,8 +142,7 @@ export default function SignIn() {
               sx={{ mt: 3, mb: 2 }}
               onClick={handleSubmit}
             >
-              {isLoading?'Loading...':"Sign In"}
-              
+              {isLoading ? "Loading..." : "Sign In"}
             </Button>
             <Grid container>
               <Grid item xs>

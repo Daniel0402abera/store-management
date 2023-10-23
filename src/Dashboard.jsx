@@ -14,6 +14,7 @@ import ListItems from "./listItems";
 import CustomAppBar from "./components/Appbar/index";
 import { Outlet } from "react-router-dom";
 import { Button, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -53,20 +54,21 @@ const drawerStyle = {
   },
 };
 export default function Dashboard() {
+  const navigate = useNavigate()
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-//   const LogoutIcon = () => (
-//     <img
-//       src={logoutIcon}
-//       alg={"profile icon"}
-//       style={{
-//         width: "11px",
-//         marginRight: 4,
-//       }}
-//     />
-//   );
+  // const LogoutIcon = () => (
+  //   <img
+  //     src={logoutIcon}
+  //     alg={"profile icon"}
+  //     style={{
+  //       width: "11px",
+  //       marginRight: 4,
+  //     }}
+  //   />
+  // );
 
   const logoutIconStyle = {
     backgroundColor: "#FFF",
@@ -113,7 +115,10 @@ export default function Dashboard() {
               <Box>
                 <ListItems />
               </Box>
-              <Button variant="contained" sx={logoutIconStyle}>
+              <Button variant="contained" onClick={()=> {
+                localStorage.removeItem("user");
+                 navigate('/');
+              }} sx={logoutIconStyle}>
                 {/* <LogoutIcon /> */}
                 logout
               </Button>

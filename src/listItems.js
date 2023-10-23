@@ -10,25 +10,25 @@ import React from "react";
 const menus = [
   {
     index: 0,
-    link: "/store",
+    link: "/dashboard/store",
     title: "Store",
     icon: <DashboardIcon />,
   },
   {
     index: 1,
-    link: "/item",
+    link: "/dashboard/item",
     title: "Item",
     icon: <LocationOnIcon />,
   },
   {
     index: 2,
-    link: "/inventory",
+    link: "/dashboard/inventory",
     title: "Inventory",
     icon: <PeopleIcon />,
   },
   {
     index: 3,
-    link: "/purchase",
+    link: "/dashboard/purchase",
     title: "Purchase",
     icon: <HotelIcon />,
   },
