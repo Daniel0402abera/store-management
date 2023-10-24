@@ -1,12 +1,15 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import { Box, IconButton, Typography, Paper, } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon,  } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import AddModal from '../common/AddModal';
 import { darken } from '@mui/material';
+import useGet from '../../services/useGet';
+import { baseURL } from '../../constants';
 
 const useStyles = makeStyles((theme) => ({
+  
   root: {
     padding: theme.spacing(2),
   },
@@ -39,7 +42,11 @@ const useStyles = makeStyles((theme) => ({
 
 export const ItemList = () => {
   const classes = useStyles();
-
+  const {data:data,isLoading} = useGet(`${baseURL}api/v1/items`,'');
+  const [tableData, setTableData] = useState([]);
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
   const initialData = [
     {
       firstName: 'Dylan',
@@ -84,18 +91,18 @@ export const ItemList = () => {
     []
   );
 
-  const [data, setData] = useState(initialData);
+  
 
   const handleAddItem = () => {
     // Add a new item to the data array
-    const newItem = {
-      firstName: 'New',
-      lastName: 'Item',
-      address: '123 New Address',
-      city: 'New City',
-      state: 'New State',
-    };
-    setData([...data, newItem]);
+    // const newItem = {
+    //   firstName: 'New',
+    //   lastName: 'Item',
+    //   address: '123 New Address',
+    //   city: 'New City',
+    //   state: 'New State',
+    // };
+    // setTableData([...tableData, newItem]);
   };
 
   return (
@@ -118,10 +125,10 @@ export const ItemList = () => {
       <Paper className={classes.tablePaper}>
         <MaterialReactTable
           columns={columns}
-          data={data}
+          state={{ isLoading: isLoading }}
+          data={tableData || []}
           enableRowActions
           muiTableHeadCellProps={{
-           
             sx: {
               fontWeight: 'bold',
               fontSize: '15px',
@@ -167,8 +174,8 @@ export const ItemList = () => {
                 className={classes.actionButton}
                 color="error"
                 onClick={() => {
-                  const newData = data.filter((item, index) => index !== row.index);
-                  setData(newData);
+                  const newData = tableData.filter((item, index) => index !== row.index);
+                  setTableData(newData);
                 }}
               >
                 <DeleteIcon />

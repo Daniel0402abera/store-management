@@ -4,6 +4,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import { Menu } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
 import usePost from "../../services/usePost";
 import { token } from "../../constants";
 
@@ -45,7 +48,6 @@ export default function AddModal({
     inputValues
   );
 
-  
   const handleAdd = async () => {
     try {
       const responseData = mutate(inputValues);
@@ -79,34 +81,54 @@ export default function AddModal({
                   {field.label}
                 </Typography>
               )}
-              <TextField
-                label={field.type !== "date" ? field.label : ""}
-                value={inputValues[field.stateVariable]}
-                type={field.type || "text"}
-                onChange={(e) => {
-                  const newValue = e.target.value;
-                  console.log(newValue);
-                  setInputValues((prevValues) => ({
-                    ...prevValues,
-                    [field.stateVariable]: newValue,
-                  }));
-                }}
-                fullWidth
-                sx={{ mt: field.type !== "date" ? 2 : 0 }}
-              />
+
+              {field.type === "select" ? ( 
+                <Select
+                  
+                  value={inputValues[field.stateVariable]}
+                  onChange={(e) => {
+                    const newValue = e.target.value;
+                    setInputValues((prevValues) => ({
+                      ...prevValues,
+                      [field.stateVariable]: newValue,
+                    }));
+                  }}
+                  fullWidth
+                  sx={{ mt: 2 }}
+                >
+                  {field.options.map((option, optionIndex) => (
+                    <MenuItem key={optionIndex} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              ) : (
+                <TextField
+                  label={field.type !== "date" ? field.label : ""}
+                  value={inputValues[field.stateVariable]}
+                  type={field.type || "text"}
+                  onChange={(e) => {
+                    const newValue = e.target.value;
+                    setInputValues((prevValues) => ({
+                      ...prevValues,
+                      [field.stateVariable]: newValue,
+                    }));
+                  }}
+                  fullWidth
+                  sx={{ mt: field.type !== "date" ? 2 : 0 }}
+                />
+              )}
             </div>
           ))}
-          <Typography  variant="h6" component="h2">
-            <p  style={{margin:'0px',color:'red'}}>
-            {isError ? error.message : ""}
+          <Typography variant="h6" component="h2">
+            <p style={{ margin: "0px", color: "red" }}>
+              {isError ? error.message : ""}
             </p>
-            
           </Typography>
           <Typography variant="h6" component="h2">
-          <p  style={{margin:'0px',color:'green'}}>
-          {isSuccess ? "Successfully Added" : ""}
-          </p>
-            
+            <p style={{ margin: "0px", color: "green" }}>
+              {isSuccess ? "Successfully Added" : ""}
+            </p>
           </Typography>
 
           <Typography variant="h6" component="h2">
@@ -125,7 +147,7 @@ export default function AddModal({
                 {actionLabel}
               </Button>
             )}
-          </Box>
+          </Box>  
         </Box>
       </Modal>
     </div>
