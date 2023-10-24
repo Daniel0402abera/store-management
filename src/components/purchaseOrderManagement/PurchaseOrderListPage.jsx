@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const PurchaseOrderList = () => {
   const classes = useStyles();
-  const {data:data,isLoading} = useGet(`${baseURL}purchase-orders`,'');
+  const {data,isLoading} = useGet(`${baseURL}purchase-orders`,'');
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
     setTableData(data);

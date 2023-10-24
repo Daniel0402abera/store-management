@@ -42,28 +42,28 @@ const useStyles = makeStyles((theme) => ({
 
 export const ItemList = () => {
   const classes = useStyles();
-  const {data:data,isLoading} = useGet(`${baseURL}api/v1/items`,'');
+  const {data,isLoading} = useGet(`${baseURL}api/v1/items`,'');
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
     setTableData(data);
   }, [data]);
-  const initialData = [
-    {
-      firstName: 'Dylan',
-      lastName: 'Murray',
-      address: '261 Erdman Ford',
-      city: 'East Daphne',
-      state: 'Kentucky',
-    },
-    {
-      firstName: 'Raquel',
-      lastName: 'Kohler',
-      address: '769 Dominic Grove',
-      city: 'Columbus',
-      state: 'Ohio',
-    },
-    // ... (other data entries)
-  ];
+  // const initialData = [
+  //   {
+  //     firstName: 'Dylan',
+  //     lastName: 'Murray',
+  //     address: '261 Erdman Ford',
+  //     city: 'East Daphne',
+  //     state: 'Kentucky',
+  //   },
+  //   {
+  //     firstName: 'Raquel',
+  //     lastName: 'Kohler',
+  //     address: '769 Dominic Grove',
+  //     city: 'Columbus',
+  //     state: 'Ohio',
+  //   },
+  //   // ... (other data entries)
+  // ];
 
   const columns = useMemo(
     () => [

@@ -5,7 +5,6 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
-import { Menu } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import usePost from "../../services/usePost";
 import { token } from "../../constants";

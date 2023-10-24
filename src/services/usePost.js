@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+// import { useAuth } from '../context/AuthContext';
 
 const postData = async (endpoint, token, data) => {
   
@@ -35,8 +35,8 @@ const postData = async (endpoint, token, data) => {
 };
 
 const usePost = (endpoint) => {
-  const { user } = useAuth();
-  const jsonUser = JSON.parse(user);
+  // const { user } = useAuth();
+  const jsonUser = JSON.parse(localStorage.getItem('user'));
   const token = jsonUser?.access_token
   const queryClient = useQueryClient();
   const makeRequest = async (data) => {

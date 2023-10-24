@@ -87,6 +87,7 @@ export const StoreListPage = () => {
           endpoint={`${baseURL}api/v1/stores`}
         />
       </Box>
+      
       <MaterialReactTable
         state={{ isLoading: isLoading }}
         columns={columns}
@@ -122,6 +123,7 @@ export const StoreListPage = () => {
             <IconButton
               color="secondary"
               onClick={() => {
+                console.log(table)
                 table.setEditingRow(row);
               }}
             >
