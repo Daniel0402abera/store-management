@@ -82,8 +82,9 @@ export default function AddModal({
               )}
 
               {field.type === "select" ? ( 
+                <>
+                <InputLabel>{field?.label}</InputLabel>  
                 <Select
-                  
                   value={inputValues[field.stateVariable]}
                   onChange={(e) => {
                     const newValue = e.target.value;
@@ -101,6 +102,7 @@ export default function AddModal({
                     </MenuItem>
                   ))}
                 </Select>
+                </>
               ) : (
                 <TextField
                   label={field.type !== "date" ? field.label : ""}

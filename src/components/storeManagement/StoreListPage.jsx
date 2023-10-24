@@ -72,13 +72,13 @@ export const StoreListPage = () => {
               type: "date",
             },
             {
+              type: "select",
               label: "Store Type",
               stateVariable: "storeType",
-              type: "select",
               options: [
-                { value: "Retail", label: "Retail" },
-                { value: "Retail", label: "Retail" },
-                { value: "Retail", label: "Retail" },
+                { value: "RETAIL", label: "RETAIL" },
+                { value: "ONLINE", label: "ONLINE" },
+                { value: "WHOLESALE", label: "WHOLESALE" },
               ],
             },
           ]}
