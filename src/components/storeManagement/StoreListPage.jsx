@@ -22,6 +22,10 @@ export const StoreListPage = () => {
       {
         accessorKey: "id",
         header: "Id",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+        
+        },
       },
       {
         accessorKey: "storeName",
@@ -46,10 +50,6 @@ export const StoreListPage = () => {
     ],
     []
   );
-
-  
-
-
 
   const [data, setData] = useState([]);
 
@@ -138,16 +138,6 @@ export const StoreListPage = () => {
         )}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
-            <IconButton
-              color="primary"
-              onClick={() =>
-                window.open(
-                  `mailto:kevinvandy@mailinator.com?subject=Hello ${row.original.firstName}!`
-                )
-              }
-            >
-              <EmailIcon />
-            </IconButton>
             <IconButton
               color="secondary"
               onClick={() => {
