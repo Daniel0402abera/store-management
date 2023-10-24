@@ -14,7 +14,7 @@ export default function ControllableStates() {
 
   return (
     <div style={{display:'flex'}}>
-      <Autocomplete
+      {/* <Autocomplete
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
@@ -41,7 +41,7 @@ export default function ControllableStates() {
         options={options}
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Store" />}
-      />
+      /> */}
      <TextField
           id=""
           label="Quantity"

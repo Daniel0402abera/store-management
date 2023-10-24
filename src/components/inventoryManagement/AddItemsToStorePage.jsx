@@ -5,8 +5,9 @@ import ItemSelection from './ItemSelection'
 const AddItemsToStorePage = () => {
   return (
     <div style={{display:'flex'}}>
-      <StoreSelection/>
       <ItemSelection/>
+      <StoreSelection/>
+      
       
     </div>
   )

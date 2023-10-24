@@ -8,6 +8,8 @@ import Popper from '@mui/material/Popper';
 import { useTheme, styled } from '@mui/material/styles';
 import { VariableSizeList } from 'react-window';
 import Typography from '@mui/material/Typography';
+import useGet from '../../services/useGet';
+import { baseURL } from '../../constants';
 
 const LISTBOX_PADDING = 8; // px
 
@@ -83,7 +85,7 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
   };
 
   const gridRef = useResetCache(itemCount);
-
+  
   return (
     <div ref={ref}>
       <OuterElementContext.Provider value={other}>
@@ -109,17 +111,7 @@ ListboxComponent.propTypes = {
   children: PropTypes.node,
 };
 
-function random(length) {
-  const characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
 
-  for (let i = 0; i < length; i += 1) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-
-  return result;
-}
 
 const StyledPopper = styled(Popper)({
   [`& .${autocompleteClasses.listbox}`]: {
@@ -131,11 +123,16 @@ const StyledPopper = styled(Popper)({
   },
 });
 
-const OPTIONS = Array.from(new Array(10000))
-  .map(() => random(10 + Math.ceil(Math.random() * 20)))
-  .sort((a, b) => a.toUpperCase().localeCompare(b.toUpperCase()));
-
 export default function ItemSelection() {
+  const {data} = useGet(`${baseURL}api/v1/stores`,'');
+
+  const options = data?.map(item => ({ id: item.id, label: item.storeName })); // Map data to include both ID and label
+  const [selectedId, setSelectedId] = React.useState(null); // State to hold the selected ID
+
+  const handleSelectChange = (event, newValue) => {
+    const selectedOption = options.find(option => option.label === newValue); // Find the selected option by label
+    setSelectedId(selectedOption ? selectedOption.id : null); // Set the ID of the selected option
+  };
   return (
     <Autocomplete
       id="virtualize-demo"
@@ -143,8 +140,10 @@ export default function ItemSelection() {
       disableListWrap
       PopperComponent={StyledPopper}
       ListboxComponent={ListboxComponent}
-      options={OPTIONS}
-      groupBy={(option) => option[0].toUpperCase()}
+      options={options.map(option => option.label)}
+      value={options.find(option => option.id === selectedId)?.label || null} // Set the value by finding the label from ID
+      onChange={handleSelectChange}
+      // groupBy={(option) => option[0].toUpperCase()}
       renderInput={(params) => <TextField {...params} label="Items" />}
       renderOption={(props, option, state) => [props, option, state.index]}
       renderGroup={(params) => params}
