@@ -123,15 +123,23 @@ const StyledPopper = styled(Popper)({
   },
 });
 
-export default function ItemSelection() {
-  const {data} = useGet(`${baseURL}api/v1/stores`,'');
+export default function ItemSelection({ onSelectedIdChange }) {
+  const {data} = useGet(`${baseURL}api/v1/items`,'');
 
   const options = data?.map(item => ({ id: item.id, label: item.storeName })); // Map data to include both ID and label
   const [selectedId, setSelectedId] = React.useState(null); // State to hold the selected ID
 
+  // const handleSelectChange = (event, newValue) => {
+  //   const selectedOption = options?.find(option => option.label === newValue); // Find the selected option by label
+  //   setSelectedId(selectedOption ? selectedOption.id : null); // Set the ID of the selected option
+  // };
+
+
   const handleSelectChange = (event, newValue) => {
-    const selectedOption = options?.find(option => option.label === newValue); // Find the selected option by label
-    setSelectedId(selectedOption ? selectedOption.id : null); // Set the ID of the selected option
+    const selectedOption = options?.find(option => option.label === newValue);
+    const newSelectedId = selectedOption ? selectedOption.id : null;
+    setSelectedId(newSelectedId);
+    onSelectedIdChange(newSelectedId); // Call the callback function with the new selected ID
   };
   return (
     <Autocomplete

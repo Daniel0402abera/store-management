@@ -119,6 +119,7 @@ export const ItemList = () => {
             ]}
             actionLabel="Add"
             onAdd={handleAddItem}
+            endpoint={`${baseURL}api/v1/items`}
         />
 
         </Box>
