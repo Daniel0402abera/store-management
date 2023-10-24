@@ -81,7 +81,7 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
     if (itemCount > 8) {
       return 8 * itemSize;
     }
-    return itemData.map(getChildSize).reduce((a, b) => a + b, 0);
+    return itemData?.map(getChildSize).reduce((a, b) => a + b, 0);
   };
 
   const gridRef = useResetCache(itemCount);
@@ -130,7 +130,7 @@ export default function ItemSelection() {
   const [selectedId, setSelectedId] = React.useState(null); // State to hold the selected ID
 
   const handleSelectChange = (event, newValue) => {
-    const selectedOption = options.find(option => option.label === newValue); // Find the selected option by label
+    const selectedOption = options?.find(option => option.label === newValue); // Find the selected option by label
     setSelectedId(selectedOption ? selectedOption.id : null); // Set the ID of the selected option
   };
   return (
@@ -140,8 +140,8 @@ export default function ItemSelection() {
       disableListWrap
       PopperComponent={StyledPopper}
       ListboxComponent={ListboxComponent}
-      options={options.map(option => option.label)}
-      value={options.find(option => option.id === selectedId)?.label || null} // Set the value by finding the label from ID
+      options={options?.map(option => option.label)}
+      value={options?.find(option => option.id === selectedId)?.label || null} // Set the value by finding the label from ID
       onChange={handleSelectChange}
       // groupBy={(option) => option[0].toUpperCase()}
       renderInput={(params) => <TextField {...params} label="Items" />}
