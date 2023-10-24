@@ -7,18 +7,20 @@ import InventoryPage from "./pages/InventoryPage";
 import PurchasePage from "./pages/PurchasePage";
 import LoginPage from "./components/authentication/LoginPage";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider} from "./context/AuthContext";
 import PrivateRoutes from "./services/privateRoutes";
 import UserPage from "./pages/UserPage";
 
 const queryClient = new QueryClient();
 
 function App() {
+  
   return (
     <div className="App">
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
+            
             <Routes>
               <Route path="/" element={<LoginPage />} />
               <Route element={<PrivateRoutes />}>

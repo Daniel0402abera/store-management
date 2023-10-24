@@ -22,6 +22,7 @@ export const UserListPage = () => {
       {
         accessorKey: "fullName",
         header: "Full Name",
+        editable: "never",
       },
       {
         accessorKey: "username",

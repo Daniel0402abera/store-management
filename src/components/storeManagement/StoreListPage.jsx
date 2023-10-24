@@ -15,7 +15,6 @@ import useGet from "../../services/useGet";
 export const StoreListPage = () => {
 
   const {data:data1,isLoading} = useGet(`${baseURL}api/v1/stores`,'');
-  console.log(data1)
   const columns = useMemo(
     //column definitions...
     () => [
