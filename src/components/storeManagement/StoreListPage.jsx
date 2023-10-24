@@ -72,7 +72,16 @@ export const StoreListPage = () => {
               stateVariable: "openingDate",
               type: "date",
             },
-            { label: "Store Type", stateVariable: "storeType", type: "select" },
+            {
+              label: "Store Type",
+              stateVariable: "storeType",
+              type: "select",
+              options: [
+                { value: "Retail", label: "Retail" },
+                { value: "Retail", label: "Retail" },
+                { value: "Retail", label: "Retail" },
+              ],
+            },
           ]}
           actionLabel="Add Store"
           onAdd={handleAddStore}
