@@ -10,7 +10,8 @@ import {
 // import { data as initialData } from './makeData';
 import { baseURL } from "../../constants";
 import useGet from "../../services/useGet";
-
+import usePutData from "../../services/usePut";
+import makeApiRequest from '../../services/req'
 
 export const StoreListPage = () => {
 
@@ -18,6 +19,10 @@ export const StoreListPage = () => {
   const columns = useMemo(
     //column definitions...
     () => [
+      {
+        accessorKey: "id",
+        header: "Id",
+      },
       {
         accessorKey: "storeName",
         header: "Store Name",
@@ -54,6 +59,26 @@ export const StoreListPage = () => {
 
   const handleAddStore = () => {
     
+  };
+  const [id, setId] = useState(1);
+
+  const handleSaveRow = async ({ exitEditingMode, row, values }) => {
+    try {
+      const updatedData = await makeApiRequest(
+        `${baseURL}api/v1/stores/${values.id}`,
+        "PUT",
+        values
+      );
+
+      if (updatedData) {
+        data[row.index] = values;
+        setId(row.index);
+      }
+
+      exitEditingMode();
+    } catch (error) {
+      console.error("API request error:", error);
+    }
   };
 
   return (
@@ -92,6 +117,9 @@ export const StoreListPage = () => {
         state={{ isLoading: isLoading }}
         columns={columns}
         data={data || []}
+        editingMode="modal" //default
+        enableEditing
+        onEditingRowSave={handleSaveRow}
         enableRowActions
         renderDetailPanel={({ row }) => (
           <Box
