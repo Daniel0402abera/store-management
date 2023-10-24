@@ -1,36 +1,24 @@
-import { useMutation, useQueryClient } from 'react-query';
-import axios from 'axios';
+// usePutData.js
+import { useEffect } from "react";
 
-const putData = async (endpoint, token, data) => {
-  try {
-    const config = {
+function usePutData(endpoint, data) {
+  useEffect(() => {
+   
+    fetch(endpoint, {
+      method: "PUT",
+      body: JSON.stringify(data),
       headers: {
-        'Content-Type': 'application/json',
-        // 'Authorization': `Bearer ${token}`
+        "Content-Type": "application/json",
       },
-    };
-    const response = await axios.put(endpoint, data, config);
-    console.log('rrrrrr', response);
-    return response;
-  } catch (error) {
-    console.error('Error:', error);
-    throw new Error(error);
-  }
-};
-
-const usePutData = (endpoint, token) => {
-
-  const queryClient = useQueryClient();
-  const makeRequest = async (data) => {
-    return await putData(endpoint, token, data);
-  };
-
-  return useMutation(makeRequest, {
-    onSuccess: (data) => {
-      
-      queryClient.invalidateQueries([endpoint, token]);
-    },
-  });
-};
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("PUT request success:", result);
+      })
+      .catch((error) => {
+        console.error("PUT request error:", error);
+      });
+  }, [endpoint, data]);
+}
 
 export default usePutData;
