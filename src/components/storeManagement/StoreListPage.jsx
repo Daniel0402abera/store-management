@@ -42,10 +42,18 @@ export const StoreListPage = () => {
       {
         accessorKey: "storeType",
         header: "Store Type",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+        
+        },
       },
       {
         accessorKey: "openingDate",
         header: "Opening Date",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+        
+        },
       },
     ],
     []

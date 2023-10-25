@@ -126,7 +126,7 @@ const StyledPopper = styled(Popper)({
 export default function ItemSelection({ onSelectedIdChange }) {
   const {data} = useGet(`${baseURL}api/v1/items`,'');
 
-  const options = data?.map(item => ({ id: item.id, label: item.storeName })); // Map data to include both ID and label
+  const options = data?.map(item => ({ id: item.itemId, label: item.itemName })); // Map data to include both ID and label
   const [selectedId, setSelectedId] = React.useState(null); // State to hold the selected ID
 
   // const handleSelectChange = (event, newValue) => {
@@ -144,7 +144,7 @@ export default function ItemSelection({ onSelectedIdChange }) {
   return (
     <Autocomplete
       id="virtualize-demo"
-      sx={{ width: 300 }}
+      sx={{ width: "100%" }}
       disableListWrap
       PopperComponent={StyledPopper}
       ListboxComponent={ListboxComponent}

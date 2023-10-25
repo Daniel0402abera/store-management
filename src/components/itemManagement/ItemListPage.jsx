@@ -1,52 +1,66 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { MaterialReactTable } from 'material-react-table';
-import { Box, IconButton, Typography, Paper, } from '@mui/material';
-import { Edit as EditIcon, Delete as DeleteIcon,  } from '@mui/icons-material';
-import { makeStyles } from '@mui/styles';
-import AddModal from '../common/AddModal';
-import { darken } from '@mui/material';
-import useGet from '../../services/useGet';
-import { baseURL } from '../../constants';
+import React, { useEffect, useMemo, useState } from "react";
+import { MaterialReactTable } from "material-react-table";
+import { Box, IconButton, Typography, Paper } from "@mui/material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import { makeStyles } from "@mui/styles";
+import AddModal from "../common/AddModal";
+import { darken } from "@mui/material";
+import useGet from "../../services/useGet";
+import { baseURL } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
-  
   root: {
     padding: theme.spacing(2),
   },
   tableContainer: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
     marginBottom: theme.spacing(2),
   },
   rowActions: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    gap: '20px',
+    display: "flex",
+    flexWrap: "nowrap",
+    gap: "20px",
   },
   actionButton: {
-    backgroundColor: 'whiteSmoke',
+    backgroundColor: "whiteSmoke",
   },
   tablePaper: {
-    
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-    borderRadius: '8px',
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+    borderRadius: "8px",
   },
   rowBackground: {
-    borderRadius: '8px',
-    padding: '8px',
+    borderRadius: "8px",
+    padding: "8px",
   },
   addButton: {
-    backgroundColor: 'primary',
-    color: 'white',
+    backgroundColor: "primary",
+    color: "white",
   },
 }));
 
 export const ItemList = () => {
   const classes = useStyles();
-  const {data,isLoading} = useGet(`${baseURL}api/v1/items`,'');
+  const { data, isLoading } = useGet(`${baseURL}api/v1/items`, "");
+  const {data:categories, isLoading:isLoadingCategories } = useGet(`${baseURL}api/v1/categories`,"");
+console.log(categories)
+
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
     setTableData(data);
   }, [data]);
+
+
+
+  const categoryOptions = useMemo(() => {
+    if (isLoadingCategories || !categories) {
+      return [];
+    }
+  
+    return categories.map((category) => ({
+      value: category?.categoryId?.toString(),
+      label: category?.categoryName,
+    }));
+  }, [categories, isLoadingCategories]);
   // const initialData = [
   //   {
   //     firstName: 'Dylan',
@@ -68,30 +82,28 @@ export const ItemList = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'firstName',
-        header: 'Name',
+        accessorKey: "itemName",
+        header: "Item Name",
       },
       {
-        accessorKey: 'lastName',
-        header: 'Price',
+        accessorKey: "category",
+        header: "Category",
       },
       {
-        accessorKey: 'address',
-        header: 'Quantity',
+        accessorKey: "price",
+        header: "Price",
       },
       {
-        accessorKey: 'city',
-        header: 'Description',
+        accessorKey: "initialQuantity",
+        header: "Initial Quantity",
       },
       {
-        accessorKey: 'state',
-        header: 'State',
+        accessorKey: "description",
+        header: "Description",
       },
     ],
     []
   );
-
-  
 
   const handleAddItem = () => {
     // Add a new item to the data array
@@ -107,22 +119,38 @@ export const ItemList = () => {
 
   return (
     <div className={classes.root}>
-        <Box mt={2} textAlign="center">
-        <AddModal
-            buttonName='Add Item'
-            title="Add Item"
-            inputFields={[
-                { label: 'Name', stateVariable: 'itemName' },
-                { label: 'Price', stateVariable: 'itemPrice' },
-                { label: 'Quantity', stateVariable: 'itemQuantity' },
-                { label: 'Description', stateVariable: 'itemDescription' },
-            ]}
-            actionLabel="Add"
-            onAdd={handleAddItem}
-            endpoint={`${baseURL}api/v1/items`}
-        />
+      <AddModal
+        buttonName="Add Category "
+        title="Add Category"
+        inputFields={[
+          { label: "Category Name", stateVariable: "categoryName" },
+        ]}
+        actionLabel="Add"
+        onAdd={handleAddItem}
+        endpoint={`${baseURL}api/v1/categories`}
+      />
 
-        </Box>
+      <Box mt={2} textAlign="center">
+        <AddModal
+          buttonName="Add Item"
+          title="Add Item"
+          inputFields={[
+            { label: "Name", stateVariable: "itemName" },
+            { label: "Price", stateVariable: "price" },
+            { label: "Quantity", stateVariable: "initialQuantity" },
+            { label: "Description", stateVariable: "description" },
+            {
+              type: "select",
+              label: "Category",
+              stateVariable: "categoryId",
+              options: categoryOptions
+            },
+          ]}
+          actionLabel="Add"
+          onAdd={handleAddItem}
+          endpoint={`${baseURL}api/v1/items`}
+        />
+      </Box>
       <Paper className={classes.tablePaper}>
         <MaterialReactTable
           columns={columns}
@@ -131,26 +159,24 @@ export const ItemList = () => {
           enableRowActions
           muiTableHeadCellProps={{
             sx: {
-              fontWeight: 'bold',
-              fontSize: '15px',
-            
+              fontWeight: "bold",
+              fontSize: "15px",
             },
           }}
           muiTablePaperProps={{
             elevation: 0,
             sx: {
-              borderRadius: '0',
-              border: '0.5px dashed #D5D7DF',
+              borderRadius: "0",
+              border: "0.5px dashed #D5D7DF",
             },
           }}
           muiTableBodyProps={{
             sx: (theme) => ({
-              '& tr:nth-of-type(odd)': {
+              "& tr:nth-of-type(odd)": {
                 backgroundColor: darken(theme.palette.background.default, 0.04),
               },
             }),
           }}
-          
           tableClassName={classes.tableContainer}
           renderDetailPanel={({ row }) => (
             <Box className={classes.rowBackground}>
@@ -159,7 +185,6 @@ export const ItemList = () => {
               <Typography>State: {row.original.state}</Typography>
             </Box>
           )}
-
           renderRowActions={({ row, table }) => (
             <Box className={classes.rowActions}>
               <IconButton
@@ -175,7 +200,9 @@ export const ItemList = () => {
                 className={classes.actionButton}
                 color="error"
                 onClick={() => {
-                  const newData = tableData.filter((item, index) => index !== row.index);
+                  const newData = tableData.filter(
+                    (item, index) => index !== row.index
+                  );
                   setTableData(newData);
                 }}
               >

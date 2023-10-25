@@ -43,14 +43,26 @@ export const UserListPage = () => {
       {
         accessorKey: "registeredBy",
         header: "Registered By",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+        
+        },
       },
       {
         accessorKey: "lastLogin",
         header: "Last Login",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+        
+        },
       },
       {
         accessorKey: "updatedAt",
         header: "Updated At",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+        
+        },
       },
     ],
     []

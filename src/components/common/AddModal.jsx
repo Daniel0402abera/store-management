@@ -58,12 +58,6 @@ export default function AddModal({
       // Handle the error
     }
     onAdd(inputValues);
-    // mutate(inputValues)
-    console.log(data);
-    console.log(isSuccess);
-
-    console.log(inputValues);
-    // handleClose();
   };
 
   return (

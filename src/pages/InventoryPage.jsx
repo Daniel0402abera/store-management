@@ -1,10 +1,11 @@
 import React from 'react'
-import AddItemsToStorePage from '../components/inventoryManagement/AddItemsToStorePage'
+
+import InventoryModal from '../components/inventoryManagement/InventoryModal'
 
 function InventoryPage() {
   return (
     <div>
-      <AddItemsToStorePage/>
+      <InventoryModal/>
     </div>
   )
 }
