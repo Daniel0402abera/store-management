@@ -13,16 +13,55 @@ import makeApiRequest from '../../services/req'
 
 export const StoreListPage = () => {
 
-  const {data:data1,isLoading} = useGet(`${baseURL}api/v1/stores`,'');
+  const [data, setData] = useState([]);
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRefetching, setIsRefetching] = useState(false);
+  //table state
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [globalFilter, setGlobalFilter] = useState('');
+
+  // const {data:data1,isLoading} = useGet(`${baseURL}api/v1/stores`,'');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!data) {
+        setIsLoading(true);
+      } else {
+        setIsRefetching(true);
+      }
+  
+      const url = new URL(`${baseURL}api/v1/stores/search`);
+      url.searchParams.set('query', JSON.stringify(columnFilters ?? []));
+      url.searchParams.set('query', globalFilter ?? '');
+      try {
+        const response = await fetch(url.href);
+        const json = await response.json();
+
+        setData(json || []); 
+      } catch (error) {
+        setIsError(true);
+        console.error(error);
+        return;
+      }
+      setIsError(false);
+      setIsLoading(false);
+      setIsRefetching(false);
+    };
+  
+    fetchData();
+  }, [columnFilters, globalFilter]);
+  
+
+
   const columns = useMemo(
-    //column definitions...
     () => [
       {
         accessorKey: "id",
         header: "Id",
         muiTableBodyCellEditTextFieldProps: {
           disabled: true,
-        
+
         },
       },
       {
@@ -57,11 +96,9 @@ export const StoreListPage = () => {
     []
   );
 
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
 
-  useEffect(()=>{
- setData(data1)
-  },[data1])
+ 
 
   const handleAddStore = () => {
     
@@ -120,13 +157,28 @@ export const StoreListPage = () => {
       </Box>
       
       <MaterialReactTable
-        state={{ isLoading: isLoading }}
         columns={columns}
-        data={data || []}
-        editingMode="modal" //default
-        enableEditing
-        onEditingRowSave={handleSaveRow}
-        enableRowActions
+        data={data}
+        // initialState={{ showColumnFilters: true }}
+        manualFiltering={true}
+        muiToolbarAlertBannerProps={
+          isError
+            ? {
+                color: 'error',
+                children: 'Error loading data',
+              }
+            : undefined
+        }
+        onColumnFiltersChange={setColumnFilters}
+        onGlobalFilterChange={setGlobalFilter}
+        state={{
+          columnFilters,
+          globalFilter,
+          isLoading,
+          showAlertBanner: isError,
+          showProgressBars: isRefetching,
+          
+        }}
         renderDetailPanel={({ row }) => (
           <Box
             sx={{
@@ -155,8 +207,8 @@ export const StoreListPage = () => {
             <IconButton
               color="error"
               onClick={() => {
-                data1?.splice(row.index, 1); //assuming simple data table
-                setData([...data1]);
+                data?.splice(row.index, 1);
+                setData([...data]);
               }}
             >
               <DeleteIcon />
