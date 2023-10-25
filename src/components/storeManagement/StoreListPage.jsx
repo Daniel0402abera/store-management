@@ -8,7 +8,7 @@ import {
 } from "@mui/icons-material";
 // import { data as initialData } from './makeData';
 import { baseURL } from "../../constants";
-import useGet from "../../services/useGet";
+// import useGet from "../../services/useGet";
 import makeApiRequest from '../../services/req'
 
 export const StoreListPage = () => {
@@ -158,6 +158,10 @@ export const StoreListPage = () => {
       
       <MaterialReactTable
         columns={columns}
+        editingMode="modal" //default
+        enableEditing
+        onEditingRowSave={handleSaveRow}
+        enableRowActions
         data={data}
         // initialState={{ showColumnFilters: true }}
         manualFiltering={true}
