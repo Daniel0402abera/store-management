@@ -50,7 +50,7 @@ export const StoreListPage = () => {
     };
   
     fetchData();
-  }, [columnFilters, globalFilter]);
+  }, [columnFilters, data, globalFilter]);
   
 
 
