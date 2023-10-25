@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MaterialReactTable } from "material-react-table";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, MenuItem, Typography } from "@mui/material";
 import AddModal from "../common/AddModal";
 import {
   Edit as EditIcon,
@@ -27,6 +27,8 @@ export const UserListPage = () => {
       label: role?.roleName,
     }));
   }, [roles, isLoadingRoles]);
+
+  const status = ['ACTIVE','SUSPENDED','BANNED']
   const columns = useMemo(
     //column definitions...
     () => [
@@ -46,10 +48,27 @@ export const UserListPage = () => {
       {
         accessorKey: "role",
         header: "Role",
+        muiTableBodyCellEditTextFieldProps: {
+          select: true, //change to select for a dropdown
+          children: roles?.map((role) => (
+            <MenuItem key={role?.roleId} value={role?.roleId}>
+              {role?.roleName}
+            </MenuItem>
+          )),
+        },
       },
       {
         accessorKey: "userStatus",
         header: "User Status",
+        muiTableBodyCellEditTextFieldProps: {
+          select: true, //change to select for a dropdown
+          children: status?.map((status,index) => (
+            <MenuItem key={index} value={status}>
+              {status}
+            </MenuItem>
+          )),
+        },
+
       },
       {
         accessorKey: "registeredBy",

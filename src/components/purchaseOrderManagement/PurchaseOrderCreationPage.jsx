@@ -37,9 +37,8 @@ const PurchaseOrderCreationPage = ({handleClose}) => {
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItemId, selectedStoreId]);
-
   const { mutate,isError,error,isSuccess } = usePost(
-    `${baseURL}api/v1/store-inventory`,
+    `${baseURL}api/v1/purchase-orders`,
     formik.values
   );
 

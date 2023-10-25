@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MaterialReactTable } from "material-react-table";
-import { Box, IconButton, Typography, Paper } from "@mui/material";
+import { Box, IconButton, Typography, Paper, MenuItem } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 import { darken } from "@mui/material";
@@ -55,7 +55,7 @@ export const PurchaseOrderList = () => {
   useEffect(() => {
     setTableData(reformattedData);
   }, [data, reformattedData]);
-
+  const status = ['PENDING','APPROVED','DELIVERED']
   const columns = useMemo(
     () => [
       {
@@ -77,6 +77,14 @@ export const PurchaseOrderList = () => {
       {
         accessorKey: "orderStatus",
         header: "Order Status",
+        muiTableBodyCellEditTextFieldProps: {
+          select: true, //change to select for a dropdown
+          children: status?.map((status,index) => (
+            <MenuItem key={index} value={status}>
+              {status}
+            </MenuItem>
+          )),
+        },
       },
     ],
     []

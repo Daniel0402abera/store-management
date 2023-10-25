@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MaterialReactTable } from "material-react-table";
-import { Box, IconButton, Typography, Paper } from "@mui/material";
+import { Box, IconButton, Typography, Paper, MenuItem } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 import AddModal from "../common/AddModal";
@@ -87,6 +87,14 @@ export const ItemList = () => {
       {
         accessorKey: "category",
         header: "Category",
+        muiTableBodyCellEditTextFieldProps: {
+          select: true, //change to select for a dropdown
+          children: categoryOptions?.map((option,index) => (
+            <MenuItem key={index} value={option?.value}>
+              {option?.label}
+            </MenuItem>
+          )),
+        },
       },
       {
         accessorKey: "price",

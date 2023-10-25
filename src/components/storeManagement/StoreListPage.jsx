@@ -160,7 +160,7 @@ export const StoreListPage = () => {
       <MaterialReactTable
         columns={columns}
         editingMode="modal" //default
-        enableEditing
+        enableEditing={true? true : false}
         onEditingRowSave={handleSaveRow}
         enableRowActions
         data={data}
