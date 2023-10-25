@@ -50,7 +50,8 @@ export const StoreListPage = () => {
     };
   
     fetchData();
-  }, [columnFilters, data, globalFilter]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columnFilters, globalFilter]);
   
 
 
