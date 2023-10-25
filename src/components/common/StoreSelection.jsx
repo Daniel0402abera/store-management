@@ -152,7 +152,7 @@ export default function StoreSelection({ onSelectedIdChange }) {
       value={options?.find(option => option.id === selectedId)?.label || null} // Set the value by finding the label from ID
       onChange={handleSelectChange}
       // groupBy={(option) => option[0].toUpperCase()}
-      renderInput={(params) => <TextField {...params} label="Items" />}
+      renderInput={(params) => <TextField {...params} label="store" />}
       renderOption={(props, option, state) => [props, option, state.index]}
       renderGroup={(params) => params}
     />

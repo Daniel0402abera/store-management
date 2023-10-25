@@ -26,11 +26,11 @@ export default function PurchaseOrderModal() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Add Inventory</Button>
+      <Button onClick={handleOpen}>ADD PURCHASE</Button>
       <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
           <Typography style={{textAlign:'center'}} variant="h6" component="h2">
-            Add Inventory
+             ADD PURCHASE
           </Typography>
           <PurchaseOrderCreationPage handleClose={handleClose} />
         </Box>
