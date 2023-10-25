@@ -35,6 +35,7 @@ const PurchaseOrderCreationPage = ({handleClose}) => {
       itemId: selectedItemId,
       storeId: selectedStoreId,
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItemId, selectedStoreId]);
 
   const { mutate,isError,error,isSuccess } = usePost(
@@ -43,15 +44,15 @@ const PurchaseOrderCreationPage = ({handleClose}) => {
   );
 
   const handleAdd = () => {
-    console.log("Form values:", formik.values);
+   
     // Here you can make an API call to post the form dat
 
     try {
-      const responseData = mutate(formik.values);
-      console.log("Response from server:", responseData);
+      mutate(formik.values);
+      
       // Handle the response data as needed
     } catch (error) {
-      console.error("Error:", error);
+      
       // Handle the error
     }
   };

@@ -13,10 +13,10 @@
       }
 
       const result = await response.json();
-      console.log("API request success:", result);
+      
       return result; 
     } catch (error) {
-      console.error("API request error:", error);
+      
       throw error;
     }
   };

@@ -13,7 +13,7 @@ function usePutData(endpoint, data) {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log("PUT request success:", result);
+      
       })
       .catch((error) => {
         console.error("PUT request error:", error);

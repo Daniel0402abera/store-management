@@ -15,7 +15,18 @@ import useGet from "../../services/useGet";
 export const UserListPage = () => {
 
   const {data:data1,isLoading} = useGet(`${baseURL}api/v1/users`,'');
-  console.log(data1)
+  const {data:roles,isLoading:isLoadingRoles} = useGet(`${baseURL}api/v1/roles`,);
+
+  const rolesOptions = useMemo(() => {
+    if (isLoadingRoles || !roles) {
+      return [];
+    }
+  
+    return roles.map((role) => ({
+      value: role?.roleId?.toString(),
+      label: role?.roleName,
+    }));
+  }, [roles, isLoadingRoles]);
   const columns = useMemo(
     //column definitions...
     () => [
@@ -97,9 +108,10 @@ export const UserListPage = () => {
               stateVariable: "password",
               type:'password'
             },
-            {
+            {    type: "select",
                 label: "Role",
-                stateVariable: "roleId"
+                stateVariable: "roleId",
+                options:rolesOptions
               },
           ]}
           actionLabel="Add"

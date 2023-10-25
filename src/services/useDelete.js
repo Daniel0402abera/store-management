@@ -10,7 +10,6 @@ const deleteData = async (endpoint, token) => {
       },
     };
     const response = await axios.delete(endpoint, config);
-    console.log(response)
     return response.data;
   } catch (error) {
     throw new Error(error.response.data);

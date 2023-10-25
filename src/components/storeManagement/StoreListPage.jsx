@@ -5,12 +5,10 @@ import AddModal from "../common/AddModal";
 import {
   Edit as EditIcon,
   Delete as DeleteIcon,
-  Email as EmailIcon,
 } from "@mui/icons-material";
 // import { data as initialData } from './makeData';
 import { baseURL } from "../../constants";
 import useGet from "../../services/useGet";
-import usePutData from "../../services/usePut";
 import makeApiRequest from '../../services/req'
 
 export const StoreListPage = () => {
@@ -68,7 +66,7 @@ export const StoreListPage = () => {
   const handleAddStore = () => {
     
   };
-  const [id, setId] = useState(1);
+  const [, setId] = useState(1);
 
   const handleSaveRow = async ({ exitEditingMode, row, values }) => {
     try {
@@ -149,7 +147,6 @@ export const StoreListPage = () => {
             <IconButton
               color="secondary"
               onClick={() => {
-                console.log(table)
                 table.setEditingRow(row);
               }}
             >

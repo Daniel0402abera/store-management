@@ -42,7 +42,6 @@ export const ItemList = () => {
   const classes = useStyles();
   const { data, isLoading } = useGet(`${baseURL}api/v1/items`, "");
   const {data:categories, isLoading:isLoadingCategories } = useGet(`${baseURL}api/v1/categories`,"");
-console.log(categories)
 
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
