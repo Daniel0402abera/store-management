@@ -17,28 +17,28 @@ const menus = [
     link: "/dashboard/store",
     title: "Store",
     icon: <StoreIcon />,
-    roles: ["ADMIN", "STOREMANAGER"],
+    roles: ["ADMIN", "STOREMANAGER", "STORE_STAFF"],
   },
   {
     index: 1,
     link: "/dashboard/item",
     title: "Item",
     icon: <LocationOnIcon />,
-    roles: ["ADMIN","STOREMANAGER"],
+    roles: ["ADMIN","STOREMANAGER", "STORE_STAFF"],
   },
   {
     index: 2,
     link: "/dashboard/inventory",
     title: "Inventory",
     icon: <InventoryIcon />,
-    roles: ["ADMIN","STOREMANAGER", "STORE_STAFF"],
+    roles: ["ADMIN","STORE_MANAGER", "STORE_STAFF"],
   },
   {
     index: 3,
     link: "/dashboard/purchase",
     title: "Purchase",
     icon: <LocalShippingIcon />,
-    roles: ["ADMIN", "STOREMANAGER"],
+    roles: ["ADMIN", "STORE_MANAGER"],
   },
   {
     index: 4,
@@ -56,7 +56,6 @@ function ListItems() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Filter menu items based on the user's role
     if (role) {
       setRole(role)
       setFilteredMenus(
