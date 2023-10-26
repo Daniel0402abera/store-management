@@ -17,14 +17,14 @@ const menus = [
     link: "/dashboard/store",
     title: "Store",
     icon: <StoreIcon />,
-    roles: ["ADMIN", "STOREMANAGER", "STORE_STAFF"],
+    roles: ["ADMIN", "STOREMANAGER"],
   },
   {
     index: 1,
     link: "/dashboard/item",
     title: "Item",
     icon: <LocationOnIcon />,
-    roles: ["ADMIN","STOREMANAGER", "STORE_STAFF"],
+    roles: ["ADMIN","STOREMANAGER"],
   },
   {
     index: 2,
