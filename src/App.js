@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider} from "./context/AuthContext";
 import PrivateRoutes from "./services/privateRoutes";
 import UserPage from "./pages/UserPage";
+import SuppliersPage from "./components/suppliers/SuppliersPage";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ function App() {
               <Route path="/" element={<LoginPage />} />
               <Route element={<PrivateRoutes />}>
                 <Route path="/dashboard" element={<Dashboard />}>
+                <Route path="/dashboard/suppliers" element={<SuppliersPage />} />
                   <Route path="/dashboard/store" element={<StorePage />} />
                   <Route path="/dashboard/item" element={<ItemPage />} />
                   <Route
