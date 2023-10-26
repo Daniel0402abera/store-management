@@ -57,6 +57,7 @@ export default function SignIn() {
         usename: decodedToken.sub,
         role: decodedToken?.role[0],
       };
+      localStorage.setItem("role",decodedToken?.role)
       login({ user: decodedUser, access_token: data?.access_token });
       queryClient.invalidateQueries("userData"); // Optionally, refetch user data
     },

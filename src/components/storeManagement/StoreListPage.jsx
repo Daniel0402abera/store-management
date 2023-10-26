@@ -161,7 +161,6 @@ export const StoreListPage = () => {
         onEditingRowSave={handleSaveRow}
         enableRowActions
         data={data}
-        // initialState={{ showColumnFilters: true }}
         manualFiltering={true}
         muiToolbarAlertBannerProps={
           isError

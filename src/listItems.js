@@ -1,63 +1,74 @@
+import React, { useState, useEffect } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import HotelIcon from "@mui/icons-material/Hotel";
 import { useNavigate } from "react-router-dom";
-import InventoryIcon from '@mui/icons-material/Inventory';
-import StoreIcon from '@mui/icons-material/Store';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import React from "react";
+
 const menus = [
   {
     index: 0,
-    link: "/dashboard",
-    title: "DashBoard",
+    link: "/dashboard/store",
+    title: "Store",
     icon: <DashboardIcon />,
+    roles: ["ADMIN", "STOREMANAGER", "STORE_STAFF"],
   },
   {
     index: 1,
-    link: "/dashboard/store",
-    title: "Store",
-    icon: <StoreIcon />,
-  },
-  {
-    index: 2,
     link: "/dashboard/item",
     title: "Item",
     icon: <LocationOnIcon />,
+    roles: ["STOREMANAGER", "STORE_STAFF"],
+  },
+  {
+    index: 2,
+    link: "/dashboard/inventory",
+    title: "Inventory",
+    icon: <PeopleIcon />,
+    roles: ["ADMIN","STOREMANAGER", "STORE_STAFF"],
   },
   {
     index: 3,
-    link: "/dashboard/inventory",
-    title: "Inventory",
-    icon: <InventoryIcon/>,
+    link: "/dashboard/purchase",
+    title: "Purchase",
+    icon: <HotelIcon />,
+    roles: ["ADMIN", "STOREMANAGER"],
   },
   {
     index: 4,
-    link: "/dashboard/purchase",
-    title: "Purchase",
-    icon: <LocalShippingIcon />,
-  },
-  {
-    index: 5,
     link: "/dashboard/user",
     title: "User",
     icon: <PeopleIcon />,
+    roles: ["ADMIN"],
   },
- 
 ];
 
 function ListItems() {
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const role = localStorage.getItem("role");
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [filteredMenus, setFilteredMenus] = useState([]);
+  const [role, setRole] = useState(localStorage.getItem("role"))
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Filter menu items based on the user's role
+    if (role) {
+      setRole(role)
+      setFilteredMenus(
+        menus.filter((menu) => menu.roles.includes(role))
+      );
+    }
+  }, [role]);
+
   const handleClick = (event, index) => {
     setSelectedIndex(index);
   };
-  return menus.map((menu, key) => (
+
+  return filteredMenus.map((menu, key) => (
     <ListItemButton
+      key={key}
       sx={{
         "&.Mui-selected": {
           color: "#488550",
