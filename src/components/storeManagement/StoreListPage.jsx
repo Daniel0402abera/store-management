@@ -17,11 +17,8 @@ export const StoreListPage = () => {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefetching, setIsRefetching] = useState(false);
-  //table state
   const [columnFilters, setColumnFilters] = useState([]);
   const [globalFilter, setGlobalFilter] = useState('');
-
-  // const {data:data1,isLoading} = useGet(`${baseURL}api/v1/stores`,'');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -97,14 +94,14 @@ export const StoreListPage = () => {
     []
   );
 
-  // const [data, setData] = useState([]);
+
 
  
 
   const handleAddStore = () => {
     
   };
-  const [, setId] = useState(1);
+  const [id, setId] = useState(1);
 
   const handleSaveRow = async ({ exitEditingMode, row, values }) => {
     try {

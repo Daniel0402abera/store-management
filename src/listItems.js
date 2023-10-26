@@ -51,7 +51,7 @@ const menus = [
 
 function ListItems() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-
+  const role = localStorage.getItem("role");
   const navigate = useNavigate();
   const handleClick = (event, index) => {
     setSelectedIndex(index);
