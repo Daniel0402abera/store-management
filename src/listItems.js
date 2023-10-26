@@ -2,18 +2,21 @@ import React, { useState, useEffect } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import PeopleIcon from "@mui/icons-material/People";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import HotelIcon from "@mui/icons-material/Hotel";
-import { useNavigate } from "react-router-dom";
 
+import PeopleIcon from "@mui/icons-material/People";
+
+
+import { useNavigate } from "react-router-dom";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import InventoryIcon from '@mui/icons-material/Inventory';
+import StoreIcon from '@mui/icons-material/Store';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 const menus = [
   {
     index: 0,
     link: "/dashboard/store",
     title: "Store",
-    icon: <DashboardIcon />,
+    icon: <StoreIcon />,
     roles: ["ADMIN", "STOREMANAGER", "STORE_STAFF"],
   },
   {
@@ -21,20 +24,20 @@ const menus = [
     link: "/dashboard/item",
     title: "Item",
     icon: <LocationOnIcon />,
-    roles: ["STOREMANAGER", "STORE_STAFF"],
+    roles: ["ADMIN","STOREMANAGER", "STORE_STAFF"],
   },
   {
     index: 2,
     link: "/dashboard/inventory",
     title: "Inventory",
-    icon: <PeopleIcon />,
+    icon: <InventoryIcon />,
     roles: ["ADMIN","STOREMANAGER", "STORE_STAFF"],
   },
   {
     index: 3,
     link: "/dashboard/purchase",
     title: "Purchase",
-    icon: <HotelIcon />,
+    icon: <LocalShippingIcon />,
     roles: ["ADMIN", "STOREMANAGER"],
   },
   {
