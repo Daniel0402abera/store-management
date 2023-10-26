@@ -5,6 +5,10 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import InventoryList from "./InventoryList";
 import AddItemsToStorePage from "./AddItemsToStorePage";
+import AddButton from "../common/AddButton";
+import AddModal from "../common/AddModal";
+import useGet from "../../services/useGet";
+import { baseURL } from "../../constants";
 
 const style = {
   position: "absolute",
@@ -24,10 +28,38 @@ export default function InventoryModal() {
   const handleClose = () => {
     setOpen(false);
   };
+  const { data, isLoading } = useGet(`${baseURL}api/v1/store-inventory`, "");
+  const options = data?.map(inventory => ({ value: inventory.storeInventoryId, label: inventory.item.itemName })) || [];
+  const handleSellItem = () =>{
 
+  }
   return (
+    <>
+    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end'}}>
+      <Box style={{margin: "0 25px"}}>
+    <AddModal
+          buttonName="SELL ITEM"
+          title="Sell Item"
+          inputFields={[
+            {
+              type: "select",
+              label: "Select Item From Store",
+              stateVariable: "storeType",
+             
+              options: options
+            },
+            { label: "Quantity", stateVariable: "quantity" },
+          ]}
+            actionLabel="SELL ITEM"
+            onAdd={handleSellItem}
+          // endpoint={`${baseURL}api/v1/stores`}
+        />
+      </Box>
+      <Box>
+      <AddButton onClickAction={handleOpen} buttonName={'Add Inventory'}/>
+      </Box>
+    </div>
     <div>
-      <Button onClick={handleOpen}>Add Inventory</Button>
       <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
           <Typography style={{textAlign:'center'}} variant="h6" component="h2">
@@ -38,5 +70,7 @@ export default function InventoryModal() {
       </Modal>
       <InventoryList/>
     </div>
+    </>
+    
   );
 }

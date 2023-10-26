@@ -60,23 +60,6 @@ export const InventoryList = () => {
       label: category?.categoryName,
     }));
   }, [categories, isLoadingCategories]);
-  // const initialData = [
-  //   {
-  //     firstName: 'Dylan',
-  //     lastName: 'Murray',
-  //     address: '261 Erdman Ford',
-  //     city: 'East Daphne',
-  //     state: 'Kentucky',
-  //   },
-  //   {
-  //     firstName: 'Raquel',
-  //     lastName: 'Kohler',
-  //     address: '769 Dominic Grove',
-  //     city: 'Columbus',
-  //     state: 'Ohio',
-  //   },
-  //   // ... (other data entries)
-  // ];
 
   const columns = useMemo(
     () => [
@@ -116,21 +99,10 @@ export const InventoryList = () => {
     []
   );
 
-  const handleAddItem = () => {
-    // Add a new item to the data array
-    // const newItem = {
-    //   firstName: 'New',
-    //   lastName: 'Item',
-    //   address: '123 New Address',
-    //   city: 'New City',
-    //   state: 'New State',
-    // };
-    // setTableData([...tableData, newItem]);
-  };
 
   return (
     <div className={classes.root}>
-
+    
       <Paper className={classes.tablePaper}>
         <MaterialReactTable
           columns={columns}

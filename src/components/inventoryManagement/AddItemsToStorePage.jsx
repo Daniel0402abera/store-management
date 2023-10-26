@@ -38,7 +38,7 @@ const AddItemsToStorePage = ({handleClose}) => {
   }, [selectedItemId, selectedStoreId]);
 
   const { mutate,isError,error,isSuccess } = usePost(
-    `${baseURL}api/v1/store-invento ry`,
+    `${baseURL}api/v1/store-inventory`,
     formik.values
   );
 

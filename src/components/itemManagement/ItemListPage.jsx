@@ -60,23 +60,7 @@ export const ItemList = () => {
       label: category?.categoryName,
     }));
   }, [categories, isLoadingCategories]);
-  // const initialData = [
-  //   {
-  //     firstName: 'Dylan',
-  //     lastName: 'Murray',
-  //     address: '261 Erdman Ford',
-  //     city: 'East Daphne',
-  //     state: 'Kentucky',
-  //   },
-  //   {
-  //     firstName: 'Raquel',
-  //     lastName: 'Kohler',
-  //     address: '769 Dominic Grove',
-  //     city: 'Columbus',
-  //     state: 'Ohio',
-  //   },
-  //   // ... (other data entries)
-  // ];
+ 
 
   const columns = useMemo(
     () => [
