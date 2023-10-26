@@ -94,10 +94,6 @@ export const StoreListPage = () => {
     []
   );
 
-
-
- 
-
   const handleAddStore = () => {
     
   };
