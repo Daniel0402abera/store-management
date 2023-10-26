@@ -124,7 +124,8 @@ export const SuppliersPage = () => {
 
   return (
     <div>
-      <Box style={{ display: "flex"  }} mt={2} textAlign="center">
+      <div style={{ display: "flex", flexDirection: "row", justifyContent: "end" }}>
+      <Box style={{ margin: "0 25px" }}>
         <AddModal
           buttonName="Add Suppliers"
           title="Add New Suppliers "
@@ -137,7 +138,11 @@ export const SuppliersPage = () => {
           endpoint={`${baseURL}api/v1/suppliers`}
         />
 
-        <AddModal
+        
+      </Box>
+
+      <Box>
+      <AddModal
           buttonName="Assign category"
           title="Assign New Category "
           inputFields={[
@@ -159,6 +164,8 @@ export const SuppliersPage = () => {
           endpoint={`${baseURL}api/v1/suppliers/assign-to-category`} //PUT
         />
       </Box>
+      </div>
+     
 
       <MaterialReactTable
         columns={columns}
