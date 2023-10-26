@@ -9,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import usePost from "../../services/usePost";
 import { token } from "../../constants";
 import { InputLabel } from "@mui/material";
+import AddButton from "./AddButton";
 
 const style = {
   position: "absolute",
@@ -60,7 +61,8 @@ export default function AddModal({
 
   return (
     <div>
-      <Button onClick={handleOpen}>{buttonName}</Button>
+      <AddButton onClickAction={handleOpen} buttonName={buttonName}/>
+      {/* <Button onClick={handleOpen}>{buttonName}</Button> */}
       <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
           <Typography variant="h6" component="h2">

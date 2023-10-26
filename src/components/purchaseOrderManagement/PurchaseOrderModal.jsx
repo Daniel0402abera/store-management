@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import PurchaseOrderCreationPage from "./PurchaseOrderCreationPage";
+import AddButton from "../common/AddButton";
 
 const style = {
   position: "absolute",
@@ -26,7 +27,7 @@ export default function PurchaseOrderModal() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>ADD PURCHASE</Button>
+      <AddButton buttonName={'Add Purchase'} onClickAction={handleOpen}/>
       <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
           <Typography style={{textAlign:'center'}} variant="h6" component="h2">
