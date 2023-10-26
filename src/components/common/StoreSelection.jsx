@@ -126,7 +126,7 @@ const StyledPopper = styled(Popper)({
 export default function StoreSelection({ onSelectedIdChange }) {
   const {data} = useGet(`${baseURL}api/v1/stores`,'');
 
-  const options = data?.map(item => ({ id: item.id, label: item.storeName })); // Map data to include both ID and label
+  const options = data?.map(item => ({ id: item.storeId, label: item.storeName })); // Map data to include both ID and label
   const [selectedId, setSelectedId] = React.useState(null); // State to hold the selected ID
 
   // const handleSelectChange = (event, newValue) => {
@@ -149,7 +149,7 @@ export default function StoreSelection({ onSelectedIdChange }) {
       PopperComponent={StyledPopper}
       ListboxComponent={ListboxComponent}
       options={options?.map(option => option.label)}
-      value={options?.find(option => option.id === selectedId)?.label || null} // Set the value by finding the label from ID
+      value={options?.find(option => option.storeId === selectedId)?.label || null} // Set the value by finding the label from ID
       onChange={handleSelectChange}
       // groupBy={(option) => option[0].toUpperCase()}
       renderInput={(params) => <TextField {...params} label="store" />}

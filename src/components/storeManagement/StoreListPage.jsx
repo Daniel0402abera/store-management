@@ -56,7 +56,7 @@ export const StoreListPage = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "id",
+        accessorKey: "storeId",
         header: "Id",
         muiTableBodyCellEditTextFieldProps: {
           disabled: true,
@@ -103,7 +103,7 @@ export const StoreListPage = () => {
   const handleSaveRow = async ({ exitEditingMode, row, values }) => {
     try {
       const updatedData = await makeApiRequest(
-        `${baseURL}api/v1/stores/${values.id}`,
+        `${baseURL}api/v1/stores/${values.storeId}`,
         "PUT",
         values
       );

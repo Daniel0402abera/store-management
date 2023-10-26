@@ -123,7 +123,7 @@ export const SuppliersPage = () => {
 
   return (
     <div>
-      <Box style={{ display: "flex" }} mt={2} textAlign="center">
+      <Box style={{ display: "flex"  }} mt={2} textAlign="center">
         <AddModal
           buttonName="Add Suppliers"
           title="Add New Suppliers "
