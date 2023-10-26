@@ -35,26 +35,24 @@ const AddItemsToStorePage = ({handleClose}) => {
       itemId: selectedItemId,
       storeId: selectedStoreId,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItemId, selectedStoreId]);
 
   const { mutate,isError,error,isSuccess } = usePost(
-    `${baseURL}api/v1/store-inventory`,
+    `${baseURL}api/v1/store-invento ry`,
     formik.values
   );
 
   const handleAdd = () => {
 
-    // Here you can make an API call to post the form dat
+ 
 
     try {
       mutate(formik.values);
      
-      // Handle the response data as needed
+     
     } catch (error) {
-      
-      // Handle the error
-    }
+
+     }
   };
   return (
     <div>

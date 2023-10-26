@@ -1,218 +1,197 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MaterialReactTable } from "material-react-table";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography, Paper, MenuItem } from "@mui/material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import { makeStyles } from "@mui/styles";
 import AddModal from "../common/AddModal";
-import {
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-} from "@mui/icons-material";
-// import { data as initialData } from './makeData';
+import { darken } from "@mui/material";
+import useGet from "../../services/useGet";
 import { baseURL } from "../../constants";
-// import useGet from "../../services/useGet";
-import makeApiRequest from '../../services/req'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+  tableContainer: {
+    backgroundColor: "red",
+    marginBottom: theme.spacing(2),
+  },
+  rowActions: {
+    display: "flex",
+    flexWrap: "nowrap",
+    gap: "20px",
+  },
+  actionButton: {
+    backgroundColor: "whiteSmoke",
+  },
+  tablePaper: {
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+    borderRadius: "8px",
+  },
+  rowBackground: {
+    borderRadius: "8px",
+    padding: "8px",
+  },
+  addButton: {
+    backgroundColor: "primary",
+    color: "white",
+  },
+}));
 
 export const InventoryList = () => {
+  const classes = useStyles();
+  const { data, isLoading } = useGet(`${baseURL}api/v1/store-inventory`, "");
+  const {data:categories, isLoading:isLoadingCategories } = useGet(`${baseURL}api/v1/categories`,"");
 
-  const [data, setData] = useState([]);
-  const [isError, setIsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isRefetching, setIsRefetching] = useState(false);
-  const [columnFilters, setColumnFilters] = useState([]);
-  const [globalFilter, setGlobalFilter] = useState('');
-
+  const [tableData, setTableData] = useState([]);
   useEffect(() => {
-    const fetchData = async () => {
-      if (!data) {
-        setIsLoading(true);
-      } else {
-        setIsRefetching(true);
-      }
-  
-      const url = new URL(`${baseURL}api/v1/stores/search`);
-      url.searchParams.set('query', JSON.stringify(columnFilters ?? []));
-      url.searchParams.set('query', globalFilter ?? '');
-      try {
-        const response = await fetch(url.href);
-        const json = await response.json();
+    setTableData(data);
+  }, [data]);
 
-        setData(json || []); 
-      } catch (error) {
-        setIsError(true);
-        console.error(error);
-        return;
-      }
-      setIsError(false);
-      setIsLoading(false);
-      setIsRefetching(false);
-    };
-  
-    fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columnFilters, globalFilter]);
-  
 
+
+  const categoryOptions = useMemo(() => {
+    if (isLoadingCategories || !categories) {
+      return [];
+    }
+  
+    return categories.map((category) => ({
+      value: category?.categoryId?.toString(),
+      label: category?.categoryName,
+    }));
+  }, [categories, isLoadingCategories]);
+  // const initialData = [
+  //   {
+  //     firstName: 'Dylan',
+  //     lastName: 'Murray',
+  //     address: '261 Erdman Ford',
+  //     city: 'East Daphne',
+  //     state: 'Kentucky',
+  //   },
+  //   {
+  //     firstName: 'Raquel',
+  //     lastName: 'Kohler',
+  //     address: '769 Dominic Grove',
+  //     city: 'Columbus',
+  //     state: 'Ohio',
+  //   },
+  //   // ... (other data entries)
+  // ];
 
   const columns = useMemo(
     () => [
       {
-        accessorKey: "id",
-        header: "Id",
-        muiTableBodyCellEditTextFieldProps: {
-          disabled: true,
-
-        },
-      },
-      {
-        accessorKey: "storeName",
+        accessorKey: "store.storeName",
         header: "Store Name",
       },
       {
-        accessorKey: "location",
-        header: "Location",
-      },
-      {
-        accessorKey: "contactInformation",
-        header: "Contact",
-      },
-      {
-        accessorKey: "storeType",
+        accessorKey: "store.storeType",
         header: "Store Type",
-        muiTableBodyCellEditTextFieldProps: {
-          disabled: true,
-        
-        },
       },
       {
-        accessorKey: "openingDate",
-        header: "Opening Date",
-        muiTableBodyCellEditTextFieldProps: {
-          disabled: true,
-        
-        },
+        accessorKey: "item.itemName",
+        header: "itemName",
+      },
+      {
+        accessorKey: "item.price",
+        header: "Price",
+      },
+      {
+        accessorKey: "item.category",
+        header: "Item Category",
+      },
+      {
+        accessorKey: "quantity",
+        header: "Quantity",
+      },
+      {
+        accessorKey: "minThreshHold",
+        header: "Min ThreshHold",
+      },
+      {
+        accessorKey: "maxThreshHold",
+        header: "Max ThreshHold",
       },
     ],
     []
   );
 
-  const handleAddStore = () => {
-    
-  };
-  const [id, setId] = useState(1);
-
-  const handleSaveRow = async ({ exitEditingMode, row, values }) => {
-    try {
-      const updatedData = await makeApiRequest(
-        `${baseURL}api/v1/stores/${values.id}`,
-        "PUT",
-        values
-      );
-
-      if (updatedData) {
-        data[row.index] = values;
-        setId(row.index);
-      }
-
-      exitEditingMode();
-    } catch (error) {
-      console.error("API request error:", error);
-    }
+  const handleAddItem = () => {
+    // Add a new item to the data array
+    // const newItem = {
+    //   firstName: 'New',
+    //   lastName: 'Item',
+    //   address: '123 New Address',
+    //   city: 'New City',
+    //   state: 'New State',
+    // };
+    // setTableData([...tableData, newItem]);
   };
 
   return (
-    <div>
-      <Box mt={2} textAlign="center">
-        <AddModal
-          buttonName="Add Store"
-          title="Add New Store"
-          inputFields={[
-            { label: "Name", stateVariable: "storeName" },
-            { label: "Location", stateVariable: "location" },
-            { label: "Contact", stateVariable: "contactInformation" },
-            {
-              label: "Opening Date",
-              stateVariable: "openingDate",
-              type: "date",
+    <div className={classes.root}>
+
+      <Paper className={classes.tablePaper}>
+        <MaterialReactTable
+          columns={columns}
+          state={{ isLoading: isLoading }}
+          data={tableData || []}
+          enableRowActions
+          muiTableHeadCellProps={{
+            sx: {
+              fontWeight: "bold",
+              fontSize: "15px",
             },
-            {
-              type: "select",
-              label: "Store Type",
-              stateVariable: "storeType",
-              options: [
-                { value: "RETAIL", label: "RETAIL" },
-                { value: "ONLINE", label: "ONLINE" },
-                { value: "WHOLESALE", label: "WHOLESALE" },
-              ],
+          }}
+          muiTablePaperProps={{
+            elevation: 0,
+            sx: {
+              borderRadius: "0",
+              border: "0.5px dashed #D5D7DF",
             },
-          ]}
-          actionLabel="Add Store"
-          onAdd={handleAddStore}
-          endpoint={`${baseURL}api/v1/stores`}
+          }}
+          muiTableBodyProps={{
+            sx: (theme) => ({
+              "& tr:nth-of-type(odd)": {
+                backgroundColor: darken(theme.palette.background.default, 0.04),
+              },
+            }),
+          }}
+          tableClassName={classes.tableContainer}
+          renderDetailPanel={({ row }) => (
+            <Box className={classes.rowBackground}>
+              <Typography>Address: {row.original.address}</Typography>
+              <Typography>City: {row.original.city}</Typography>
+              <Typography>State: {row.original.state}</Typography>
+            </Box>
+          )}
+          renderRowActions={({ row, table }) => (
+            <Box className={classes.rowActions}>
+              <IconButton
+                className={classes.actionButton}
+                color="secondary"
+                onClick={() => {
+                  table.setEditingRow(row);
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                className={classes.actionButton}
+                color="error"
+                onClick={() => {
+                  const newData = tableData.filter(
+                    (item, index) => index !== row.index
+                  );
+                  setTableData(newData);
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
+          )}
         />
-      </Box>
-      
-      <MaterialReactTable
-        columns={columns}
-        editingMode="modal" //default
-        enableEditing={true? true : false}
-        onEditingRowSave={handleSaveRow}
-        enableRowActions
-        data={data}
-        manualFiltering={true}
-        muiToolbarAlertBannerProps={
-          isError
-            ? {
-                color: 'error',
-                children: 'Error loading data',
-              }
-            : undefined
-        }
-        onColumnFiltersChange={setColumnFilters}
-        onGlobalFilterChange={setGlobalFilter}
-        state={{
-          columnFilters,
-          globalFilter,
-          isLoading,
-          showAlertBanner: isError,
-          showProgressBars: isRefetching,
-          
-        }}
-        renderDetailPanel={({ row }) => (
-          <Box
-            sx={{
-              display: "grid",
-              margin: "auto",
-              gridTemplateColumns: "1fr 1fr",
-              width: "100%",
-            }}
-          >
-            <Typography>Address: {row.original.address}</Typography>
-            <Typography>City: {row.original.city}</Typography>
-            <Typography>State: {row.original.state}</Typography>
-            <Typography>Country: {row.original.country}</Typography>
-          </Box>
-        )}
-        renderRowActions={({ row, table }) => (
-          <Box sx={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
-            <IconButton
-              color="secondary"
-              onClick={() => {
-                table.setEditingRow(row);
-              }}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              color="error"
-              onClick={() => {
-                data?.splice(row.index, 1);
-                setData([...data]);
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        )}
-      />
+      </Paper>
     </div>
   );
 };
