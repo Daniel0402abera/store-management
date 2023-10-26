@@ -1,6 +1,5 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import InventoryList from "./InventoryList";
@@ -28,7 +27,7 @@ export default function InventoryModal() {
   const handleClose = () => {
     setOpen(false);
   };
-  const { data, isLoading } = useGet(`${baseURL}api/v1/store-inventory`, "");
+  const { data} = useGet(`${baseURL}api/v1/store-inventory`, "");
   const options = data?.map(inventory => ({ value: inventory.storeInventoryId, label: inventory.item.itemName })) || [];
   const handleSellItem = () =>{
 

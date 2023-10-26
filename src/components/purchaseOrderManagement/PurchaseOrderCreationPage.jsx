@@ -37,7 +37,7 @@ const PurchaseOrderCreationPage = ({handleClose}) => {
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItemId, selectedStoreId]);
-  const { mutate,isError,error,isSuccess } = usePost(
+  const { mutate,isError,error,isSuccess,isLoading } = usePost(
     `${baseURL}api/v1/purchase-orders`,
     formik.values
   );
@@ -101,7 +101,7 @@ const PurchaseOrderCreationPage = ({handleClose}) => {
               Cancel
             </Button>
               <Button variant="contained" color="primary" onClick={handleAdd}>
-                Add
+               {isLoading?"Adding...":"Add"}
               </Button>
             
           </Box>

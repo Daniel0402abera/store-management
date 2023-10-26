@@ -100,6 +100,7 @@ export const SuppliersPage = () => {
   );
 
   const handleAddStore = () => {};
+  // eslint-disable-next-line no-unused-vars
   const [id, setId] = useState(1);
 
   const handleSaveRow = async ({ exitEditingMode, row, values }) => {
@@ -155,12 +156,13 @@ export const SuppliersPage = () => {
           ]}
           actionLabel="Assign category"
           onAdd={handleAddStore}
-          endpoint={`${baseURL}api/v1/suppliers`}
+          endpoint={`${baseURL}api/v1/suppliers/assign-to-category`} //PUT
         />
       </Box>
 
       <MaterialReactTable
         columns={columns}
+        state={{ isLoading: isLoading }}
         editingMode="modal" //default
         enableEditing={true ? true : false}
         onEditingRowSave={handleSaveRow}

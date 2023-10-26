@@ -10,7 +10,6 @@ import {
 import { baseURL } from "../../constants";
 // import useGet from "../../services/useGet";
 import makeApiRequest from '../../services/req'
-import AddButton from "../common/AddButton";
 
 export const StoreListPage = () => {
 
@@ -118,14 +117,11 @@ export const StoreListPage = () => {
       console.error("API request error:", error);
     }
   };
-  const handleAddCheck = () =>{
-    return null
-  }
-
+  
   return (
     <div>
       <Box mt={2} textAlign="center">
-        {/* <AddButton buttonName={'Add Store'} onClickAction={handleAddCheck}/> */}
+        
         <AddModal
           buttonName="Add Store"
           title="Add New Store"

@@ -41,26 +41,26 @@ const useStyles = makeStyles((theme) => ({
 export const ItemList = () => {
   const classes = useStyles();
   const { data, isLoading } = useGet(`${baseURL}api/v1/items`, "");
-  const {data:categories, isLoading:isLoadingCategories } = useGet(`${baseURL}api/v1/categories`,"");
+  const { data: categories, isLoading: isLoadingCategories } = useGet(
+    `${baseURL}api/v1/categories`,
+    ""
+  );
 
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
     setTableData(data);
   }, [data]);
 
-
-
   const categoryOptions = useMemo(() => {
     if (isLoadingCategories || !categories) {
       return [];
     }
-  
+
     return categories.map((category) => ({
       value: category?.categoryId?.toString(),
       label: category?.categoryName,
     }));
   }, [categories, isLoadingCategories]);
- 
 
   const columns = useMemo(
     () => [
@@ -73,7 +73,7 @@ export const ItemList = () => {
         header: "Category",
         muiTableBodyCellEditTextFieldProps: {
           select: true, //change to select for a dropdown
-          children: categoryOptions?.map((option,index) => (
+          children: categoryOptions?.map((option, index) => (
             <MenuItem key={index} value={option?.value}>
               {option?.label}
             </MenuItem>
@@ -93,6 +93,7 @@ export const ItemList = () => {
         header: "Description",
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -110,38 +111,45 @@ export const ItemList = () => {
 
   return (
     <div className={classes.root}>
-      <AddModal
-        buttonName="Add Category "
-        title="Add Category"
-        inputFields={[
-          { label: "Category Name", stateVariable: "categoryName" },
-        ]}
-        actionLabel="Add"
-        onAdd={handleAddItem}
-        endpoint={`${baseURL}api/v1/categories`}
-      />
+      <div
+        style={{ display: "flex", flexDirection: "row", justifyContent: "end" }}
+      >
+        <Box style={{ margin: "0 25px" }}>
+          <AddModal
+            buttonName="Add Category "
+            title="Add Category"
+            inputFields={[
+              { label: "Category Name", stateVariable: "categoryName" },
+            ]}
+            actionLabel="Add"
+            onAdd={handleAddItem}
+            endpoint={`${baseURL}api/v1/categories`}
+          />
+        </Box>
 
-      <Box mt={2} textAlign="center">
-        <AddModal
-          buttonName="Add Item"
-          title="Add Item"
-          inputFields={[
-            { label: "Name", stateVariable: "itemName" },
-            { label: "Price", stateVariable: "price" },
-            { label: "Quantity", stateVariable: "initialQuantity" },
-            { label: "Description", stateVariable: "description" },
-            {
-              type: "select",
-              label: "Category",
-              stateVariable: "categoryId",
-              options: categoryOptions
-            },
-          ]}
-          actionLabel="Add"
-          onAdd={handleAddItem}
-          endpoint={`${baseURL}api/v1/items`}
-        />
-      </Box>
+        <Box>
+          <AddModal
+            buttonName="Add Item"
+            title="Add Item"
+            inputFields={[
+              { label: "Name", stateVariable: "itemName" },
+              { label: "Price", stateVariable: "price" },
+              { label: "Quantity", stateVariable: "initialQuantity" },
+              { label: "Description", stateVariable: "description" },
+              {
+                type: "select",
+                label: "Category",
+                stateVariable: "categoryId",
+                options: categoryOptions,
+              },
+            ]}
+            actionLabel="Add"
+            onAdd={handleAddItem}
+            endpoint={`${baseURL}api/v1/items`}
+          />
+        </Box>
+      </div>
+
       <Paper className={classes.tablePaper}>
         <MaterialReactTable
           columns={columns}

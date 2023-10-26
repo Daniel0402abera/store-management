@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MaterialReactTable } from "material-react-table";
-import { Box, IconButton, Typography, Paper, MenuItem } from "@mui/material";
+import { Box, IconButton, Typography, Paper } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
-import AddModal from "../common/AddModal";
 import { darken } from "@mui/material";
 import useGet from "../../services/useGet";
 import { baseURL } from "../../constants";
@@ -41,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 export const InventoryList = () => {
   const classes = useStyles();
   const { data, isLoading } = useGet(`${baseURL}api/v1/store-inventory`, "");
-  const {data:categories, isLoading:isLoadingCategories } = useGet(`${baseURL}api/v1/categories`,"");
+  // const {data:categories, isLoading:isLoadingCategories } = useGet(`${baseURL}api/v1/categories`,"");
 
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
@@ -50,16 +49,16 @@ export const InventoryList = () => {
 
 
 
-  const categoryOptions = useMemo(() => {
-    if (isLoadingCategories || !categories) {
-      return [];
-    }
+  // const categoryOptions = useMemo(() => {
+  //   if (isLoadingCategories || !categories) {
+  //     return [];
+  //   }
   
-    return categories.map((category) => ({
-      value: category?.categoryId?.toString(),
-      label: category?.categoryName,
-    }));
-  }, [categories, isLoadingCategories]);
+  //   return categories.map((category) => ({
+  //     value: category?.categoryId?.toString(),
+  //     label: category?.categoryName,
+  //   }));
+  // }, [categories, isLoadingCategories]);
 
   const columns = useMemo(
     () => [

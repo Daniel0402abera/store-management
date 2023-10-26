@@ -4,11 +4,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PeopleIcon from "@mui/icons-material/People";
 import { useNavigate } from "react-router-dom";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import InventoryIcon from '@mui/icons-material/Inventory';
 import StoreIcon from '@mui/icons-material/Store';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import CategoryIcon from '@mui/icons-material/Category';
 const menus = [
   {
     index: 0,
@@ -21,7 +21,7 @@ const menus = [
     index: 1,
     link: "/dashboard/item",
     title: "Item",
-    icon: <LocationOnIcon />,
+    icon: <CategoryIcon />,
     roles: ["ADMIN","STORE_MANAGER"],
   },
   {
