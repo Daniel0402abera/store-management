@@ -1,14 +1,15 @@
 // usePutData.js
 import { useEffect } from "react";
 
-function usePutData(endpoint, data) {
+function usePutData(endpoint, token, data) {
   useEffect(() => {
    
     fetch(endpoint, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
     })
       .then((response) => response.json())

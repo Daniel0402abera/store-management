@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
-
+import Box from "@mui/material/Box";
 const useStyles = makeStyles((theme) => ({
   customButton: {
     margin: '10px',
@@ -26,13 +26,16 @@ const AddButton = ({ buttonName, onClickAction }) => {
   };
 
   return (
-    <Button
+    <Box style={{display: 'flex', justifyContent: 'end', margin: '10px'}}>
+      <Button
       className={classes.customButton}
       variant="contained"
       onClick={handleClick}
     >
       {buttonName}
     </Button>
+    </Box>
+    
   );
 };
 
