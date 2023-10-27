@@ -12,7 +12,9 @@ import { baseURL } from "../../constants";
 import makeApiRequest from '../../services/req'
 
 export const StoreListPage = () => {
-
+  
+  const jsonUser = JSON.parse(localStorage.getItem('user'));
+  const token = jsonUser?.access_token
   const [data, setData] = useState([]);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +34,12 @@ export const StoreListPage = () => {
       url.searchParams.set('query', JSON.stringify(columnFilters ?? []));
       url.searchParams.set('query', globalFilter ?? '');
       try {
-        const response = await fetch(url.href);
+        const response = await fetch(url.href,{
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json', 
+          }});
         const json = await response.json();
 
         setData(json || []); 
@@ -97,6 +104,7 @@ export const StoreListPage = () => {
   const handleAddStore = () => {
     
   };
+  // eslint-disable-next-line no-unused-vars
   const [id, setId] = useState(1);
 
   const handleSaveRow = async ({ exitEditingMode, row, values }) => {
