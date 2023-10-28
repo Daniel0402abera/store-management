@@ -1,5 +1,5 @@
 // usePutData.js
-// import { useEffect } from "react";
+import { useEffect } from "react";
 
 // function usePutData(endpoint, token, data) {
 //   useEffect(() => {
