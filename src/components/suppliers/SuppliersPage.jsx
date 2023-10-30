@@ -8,6 +8,7 @@ import { baseURL } from "../../constants";
 // import useGet from "../../services/useGet";
 import makeApiRequest from "../../services/req";
 import useGet from "../../services/useGet";
+import EditModal from "../common/EditModal";
 
 export const SuppliersPage = () => {
   // const [data, setData] = useState([]);
@@ -142,7 +143,7 @@ export const SuppliersPage = () => {
       </Box>
 
       <Box>
-      <AddModal
+      <EditModal
           buttonName="Assign category"
           title="Assign New Category "
           inputFields={[

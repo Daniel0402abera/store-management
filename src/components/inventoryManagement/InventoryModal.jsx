@@ -52,7 +52,7 @@ export default function InventoryModal() {
           ]}
             actionLabel="SELL ITEM"
             onAdd={handleSellItem}
-            endpoint={`${baseURL}api/v1/stores`}
+            isInvetory={true}
         />
       </Box>
       <Box>

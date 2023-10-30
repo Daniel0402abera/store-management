@@ -31,6 +31,7 @@ export default function EditModal({
   actionLabel,
   onAdd,
   endpoint,
+  isInvetory
 }) {
   const initialInputValues = inputFields.reduce((acc, field) => {
     acc[field.stateVariable] = "";
@@ -50,8 +51,9 @@ export default function EditModal({
 //     `${token}`,
 //     inputValues
 //   );
+const inventoryPut = `${baseURL}api/v1/store-inventory/${inputValues?.storeInventoryId}/process-item-sale`
 
-  const { mutate, isLoading, isError, error,isSuccess } = usePutData(`${baseURL}api/v1/store-inventory/${inputValues?.storeInventoryId}/process-item-sale`,inputValues);
+  const { mutate, isLoading, isError, error,isSuccess } = usePutData( isInvetory ? inventoryPut : endpoint,inputValues);
   
   const handleAdd = async () => {
     try {
@@ -128,7 +130,7 @@ export default function EditModal({
           </Typography>
           <Typography variant="h6" component="h2">
             <p style={{ margin: "0px", color: "green" }}>
-              {isSuccess ? `Successfully selled ${inputValues.quantity} Items` : ""}
+              {isInvetory ?  `${isSuccess ? `Successfully selled ${inputValues.quantity} Items` : ""}` : `${isSuccess ? `Successfully assigned new Category` : ""}` }
             </p>
           </Typography>
 
