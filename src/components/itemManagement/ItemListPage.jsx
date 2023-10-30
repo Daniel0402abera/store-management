@@ -7,6 +7,7 @@ import AddModal from "../common/AddModal";
 import { darken } from "@mui/material";
 import useGet from "../../services/useGet";
 import { baseURL } from "../../constants";
+import makeApiRequest from "../../services/req";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,9 +40,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const ItemList = () => {
+  const jsonUser = JSON.parse(localStorage.getItem('user'));
+  const token = jsonUser?.access_token
+   const [refresh,setRefersh] = useState(false)
   const classes = useStyles();
   const { data, isLoading } = useGet(`${baseURL}api/v1/items`, "");
-  const { data: categories, isLoading: isLoadingCategories } = useGet(
+  const { data: categories, isLoading: isLoadingCategories, isRefetching } = useGet(
     `${baseURL}api/v1/categories`,
     ""
   );
@@ -64,6 +68,15 @@ export const ItemList = () => {
 
   const columns = useMemo(
     () => [
+
+      {
+        accessorKey: "itemId",
+        header: "Item Id",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+
+        },
+      },
       {
         accessorKey: "itemName",
         header: "Item Name",
@@ -97,17 +110,33 @@ export const ItemList = () => {
     []
   );
 
-  const handleAddItem = () => {
-    // Add a new item to the data array
-    // const newItem = {
-    //   firstName: 'New',
-    //   lastName: 'Item',
-    //   address: '123 New Address',
-    //   city: 'New City',
-    //   state: 'New State',
-    // };
-    // setTableData([...tableData, newItem]);
+  
+  const [id, setId] = useState(1);
+
+  
+  const handleSaveRow = async ({ exitEditingMode, row, values }) => {
+    try {
+      const updatedData = await makeApiRequest(
+        `${baseURL}api/v1/items/${values.itemId}`,
+        "PUT",
+        values,
+        token
+      );
+  
+      if (updatedData) {
+        // Assuming `data` is the array containing your table rows
+        const newData = [...data];
+        newData[row.index] = updatedData; // Replace the edited row with the updated data
+        setTableData(newData);
+      }
+      setRefersh(true);
+      exitEditingMode();
+    } catch (error) {
+      console.error("API request error:", error);
+    }
   };
+  
+
 
   return (
     <div className={classes.root}>
@@ -122,7 +151,7 @@ export const ItemList = () => {
               { label: "Category Name", stateVariable: "categoryName" },
             ]}
             actionLabel="Add"
-            onAdd={handleAddItem}
+            
             endpoint={`${baseURL}api/v1/categories`}
           />
         </Box>
@@ -144,7 +173,6 @@ export const ItemList = () => {
               },
             ]}
             actionLabel="Add"
-            onAdd={handleAddItem}
             endpoint={`${baseURL}api/v1/items`}
           />
         </Box>
@@ -156,6 +184,7 @@ export const ItemList = () => {
           state={{ isLoading: isLoading }}
           data={tableData || []}
           enableRowActions
+          onEditingRowSave={handleSaveRow}
           muiTableHeadCellProps={{
             sx: {
               fontWeight: "bold",
@@ -186,6 +215,7 @@ export const ItemList = () => {
           )}
           renderRowActions={({ row, table }) => (
             <Box className={classes.rowActions}>
+
               <IconButton
                 className={classes.actionButton}
                 color="secondary"
@@ -195,6 +225,7 @@ export const ItemList = () => {
               >
                 <EditIcon />
               </IconButton>
+
               <IconButton
                 className={classes.actionButton}
                 color="error"

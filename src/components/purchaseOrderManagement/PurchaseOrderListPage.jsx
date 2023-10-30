@@ -7,6 +7,7 @@ import { darken } from "@mui/material";
 import useGet from "../../services/useGet";
 import { baseURL } from "../../constants";
 import PurchaseOrderModal from "./PurchaseOrderModal";
+import makeApiRequest from "../../services/req";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,11 +40,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const PurchaseOrderList = () => {
+  const jsonUser = JSON.parse(localStorage.getItem('user'));
+  const token = jsonUser?.access_token
+  const [refresh,setRefersh] = useState(false)
+
   const classes = useStyles();
   const { data, isLoading } = useGet(`${baseURL}api/v1/purchase-orders`, "");
   const [tableData, setTableData] = useState([]);
 
   const reformattedData = data?.map((order) => ({
+    purchaseOrderId:order.purchaseOrderId,
     storeName: order.store.storeName,
     itemName: order.item.itemName,
     quantity: order.quantity,
@@ -59,20 +65,44 @@ export const PurchaseOrderList = () => {
   const columns = useMemo(
     () => [
       {
+        accessorKey: "purchaseOrderId",
+        header: "Id",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+
+        },
+      },
+      {
         accessorKey: "storeName",
         header: "Store Name",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+
+        },
       },
       {
         accessorKey: "itemName",
         header: "Item list",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+
+        },
       },
       {
         accessorKey: "quantity",
         header: "Quantity",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+
+        },
       },
       {
         accessorKey: "orderNumber",
         header: "Purchase order number",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+
+        },
       },
       {
         accessorKey: "orderStatus",
@@ -90,6 +120,29 @@ export const PurchaseOrderList = () => {
     []
   );
 
+
+  const handleSaveRow = async ({ exitEditingMode, row, values }) => {
+    try {
+      const updatedData = await makeApiRequest(
+        `${baseURL}api/v1/purchase-orders/${values.purchaseOrderId}/status?status=${values.orderStatus}`,
+        "PUT",
+        values,
+        token
+      );
+  
+      if (updatedData) {
+        // Assuming `data` is the array containing your table rows
+        const newData = [...data];
+        newData[row.index] = updatedData; // Replace the edited row with the updated data
+        setTableData(newData);
+      }
+      setRefersh(true);
+      exitEditingMode();
+    } catch (error) {
+      console.error("API request error:", error);
+    }
+  };
+  
   return (
     <div className={classes.root}>
       <Box mt={2} textAlign="center">
@@ -101,6 +154,7 @@ export const PurchaseOrderList = () => {
           state={{ isLoading: isLoading }}
           data={tableData || []}
           enableRowActions
+          onEditingRowSave={handleSaveRow}
           muiTableHeadCellProps={{
             sx: {
               fontWeight: "bold",

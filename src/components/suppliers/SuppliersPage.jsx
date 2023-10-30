@@ -91,6 +91,9 @@ export const SuppliersPage = () => {
       {
         accessorKey: "supplierName",
         header: "Supplier Name",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+        },
       },
       {
         accessorKey: "supplierAddress",

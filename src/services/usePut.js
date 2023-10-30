@@ -10,9 +10,10 @@ const putData = async (endpoint, token, data) => {
       },
     };
     const response = await axios.put(endpoint, data, config);
-    console.log('rrrrrr', response);
+
     return response;
   } catch (error) {
+    console.log(error)
     throw new Error(error.response.data.message);
   }
 };

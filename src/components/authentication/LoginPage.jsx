@@ -64,20 +64,22 @@ export default function SignIn() {
   });
   React.useEffect(() => {
     if (data) {
-      navigate("/dashboard/store");
+      navigate("/dashboard");
     }
   }, [data, navigate]);
+
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
   });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     loginMutation(formik.values);
     if (data) {
-      navigate("/dashboard/store");
+      navigate("/dashboard");
     }
   };
 

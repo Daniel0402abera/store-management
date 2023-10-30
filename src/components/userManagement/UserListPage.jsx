@@ -10,12 +10,21 @@ import {
 // import { data as initialData } from './makeData';
 import { baseURL } from "../../constants";
 import useGet from "../../services/useGet";
+import makeApiRequest from "../../services/req";
 
 
 export const UserListPage = () => {
+  const jsonUser = JSON.parse(localStorage.getItem('user'));
+  const token = jsonUser?.access_token
+  const [refersh,setRefersh] = useState(false)
 
   const {data:data1,isLoading} = useGet(`${baseURL}api/v1/users`,'');
   const {data:roles,isLoading:isLoadingRoles} = useGet(`${baseURL}api/v1/roles`,);
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    setTableData(data1);
+  }, [data1]);
 
   const rolesOptions = useMemo(() => {
     if (isLoadingRoles || !roles) {
@@ -32,27 +41,49 @@ export const UserListPage = () => {
   const columns = useMemo(
     //column definitions...
     () => [
+
+      {
+        accessorKey: "id",
+        header: "Id",
+        editable: "never",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+
+        },
+      },
       {
         accessorKey: "fullName",
         header: "Full Name",
         editable: "never",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+
+        },
       },
       {
         accessorKey: "username",
         header: "username",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+
+        },
       },
       {
         accessorKey: "email",
         header: "Email",
+        muiTableBodyCellEditTextFieldProps: {
+          disabled: true,
+
+        },
       },
       {
         accessorKey: "role",
         header: "Role",
         muiTableBodyCellEditTextFieldProps: {
           select: true, //change to select for a dropdown
-          children: roles?.map((role) => (
-            <MenuItem key={role?.roleId} value={role?.roleId}>
-              {role?.roleName}
+          children: rolesOptions?.map((role) => (
+            <MenuItem key={role?.value} value={role?.value}>
+              {role?.label}
             </MenuItem>
           )),
         },
@@ -102,15 +133,43 @@ export const UserListPage = () => {
 
 
 
-  const [data, setData] = useState([]);
+//   const [data, setData] = useState([]);
 
-  useEffect(()=>{
- setData(data1)
-  },[data1])
+//   useEffect(()=>{
+//  setData(data1)
+//   },[data1])
 
   const handleAddStore = () => {
     
   };
+
+
+  const handleSaveRow = async ({ exitEditingMode, row, values }) => {
+    const formatedData = {
+      "status": `${values.userStatus}`,
+      "roleId":`${values.id}`
+  }
+    try {
+      const updatedData = await makeApiRequest(
+        `${baseURL}api/v1/users/${values.id}`,
+        "PUT",
+        formatedData,
+        token
+      );
+  
+      if (updatedData) {
+        // Assuming `data` is the array containing your table rows
+        const newData = [...data1];
+        newData[row.index] = updatedData; // Replace the edited row with the updated data
+        setTableData(newData);
+      }
+      setRefersh(true);
+      exitEditingMode();
+    } catch (error) {
+      console.error("API request error:", error);
+    }
+  };
+  
 
   return (
     <div>
@@ -141,8 +200,9 @@ export const UserListPage = () => {
       <MaterialReactTable
         state={{ isLoading: isLoading }}
         columns={columns}
-        data={data || []}
+        data={tableData || []}
         enableRowActions
+        onEditingRowSave={handleSaveRow}
         renderDetailPanel={({ row }) => (
           <Box
             sx={{
@@ -183,7 +243,7 @@ export const UserListPage = () => {
               color="error"
               onClick={() => {
                 data1?.splice(row.index, 1); //assuming simple data table
-                setData([...data1]);
+                setTableData([...data1]);
               }}
             >
               <DeleteIcon />
