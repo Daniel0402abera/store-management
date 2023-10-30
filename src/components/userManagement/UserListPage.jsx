@@ -16,7 +16,7 @@ import makeApiRequest from "../../services/req";
 export const UserListPage = () => {
   const jsonUser = JSON.parse(localStorage.getItem('user'));
   const token = jsonUser?.access_token
-  const [refersh,setRefersh] = useState(false)
+  const [,setRefersh] = useState(false)
 
   const {data:data1,isLoading} = useGet(`${baseURL}api/v1/users`,'');
   const {data:roles,isLoading:isLoadingRoles} = useGet(`${baseURL}api/v1/roles`,);
@@ -37,6 +37,7 @@ export const UserListPage = () => {
     }));
   }, [roles, isLoadingRoles]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const status = ['ACTIVE','SUSPENDED','BANNED']
   const columns = useMemo(
     //column definitions...
@@ -126,7 +127,7 @@ export const UserListPage = () => {
         },
       },
     ],
-    []
+    [rolesOptions, status]
   );
 
   
