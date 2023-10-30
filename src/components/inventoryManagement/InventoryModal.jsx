@@ -8,6 +8,7 @@ import AddButton from "../common/AddButton";
 import AddModal from "../common/AddModal";
 import useGet from "../../services/useGet";
 import { baseURL } from "../../constants";
+import EditModal from "../common/EditModal";
 
 const style = {
   position: "absolute",
@@ -36,14 +37,14 @@ export default function InventoryModal() {
     <>
     <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end'}}>
       <Box style={{margin: "0 25px"}}>
-    <AddModal
+    <EditModal
           buttonName="SELL ITEM"
           title="Sell Item"
           inputFields={[
             {
               type: "select",
               label: "Select Item From Store",
-              stateVariable: "storeType",
+              stateVariable: "storeInventoryId",
              
               options: options
             },
@@ -51,7 +52,7 @@ export default function InventoryModal() {
           ]}
             actionLabel="SELL ITEM"
             onAdd={handleSellItem}
-          // endpoint={`${baseURL}api/v1/stores`}
+            isInvetory={true}
         />
       </Box>
       <Box>

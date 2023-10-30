@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import usePost from "../../services/usePost";
-import { token } from "../../constants";
+import { baseURL, token } from "../../constants";
 import { InputLabel } from "@mui/material";
 import AddButton from "./AddButton";
 import usePutData from "../../services/usePut";
@@ -24,13 +24,14 @@ const style = {
   p: 4,
 };
 
-export default function AddModal({
+export default function EditModal({
   buttonName,
   title,
   inputFields,
   actionLabel,
   onAdd,
   endpoint,
+  isInvetory
 }) {
   const initialInputValues = inputFields.reduce((acc, field) => {
     acc[field.stateVariable] = "";
@@ -50,11 +51,13 @@ export default function AddModal({
 //     `${token}`,
 //     inputValues
 //   );
+const inventoryPut = `${baseURL}api/v1/store-inventory/${inputValues?.storeInventoryId}/process-item-sale`
 
-  const { mutate, isLoading, isError, error,isSuccess } = usePutData(endpoint,inputValues);
+  const { mutate, isLoading, isError, error,isSuccess } = usePutData( isInvetory ? inventoryPut : endpoint,inputValues);
   
   const handleAdd = async () => {
     try {
+      console.log(inputValues)
     mutate(inputValues);
       // Handle the response data as needed
     } catch (error) {
@@ -127,7 +130,7 @@ export default function AddModal({
           </Typography>
           <Typography variant="h6" component="h2">
             <p style={{ margin: "0px", color: "green" }}>
-              {isSuccess ? "Successfully Added" : ""}
+              {isInvetory ?  `${isSuccess ? `Successfully selled ${inputValues.quantity} Items` : ""}` : `${isSuccess ? `Successfully assigned new Category` : ""}` }
             </p>
           </Typography>
 
