@@ -1,32 +1,3 @@
-// usePutData.js
-import { useEffect } from "react";
-
-// function usePutData(endpoint, token, data) {
-//   useEffect(() => {
-   
-//     fetch(endpoint, {
-//       method: "PUT",
-//       body: JSON.stringify(data),
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Authorization': `Bearer ${token}`
-//       },
-//     })
-//       .then((response) => response.json())
-//       .then((result) => {
-      
-//       })
-//       .catch((error) => {
-//         console.error("PUT request error:", error);
-//       });
-//   }, [endpoint, data]);
-// }
-
-// export default usePutData;
-
-
-
-
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 
@@ -42,8 +13,7 @@ const putData = async (endpoint, token, data) => {
     console.log('rrrrrr', response);
     return response;
   } catch (error) {
-    console.error('Error:', error);
-    throw new Error(error);
+    throw new Error(error.response.data.message);
   }
 };
 
