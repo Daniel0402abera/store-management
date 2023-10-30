@@ -21,6 +21,7 @@ export const StoreListPage = () => {
   const [isRefetching, setIsRefetching] = useState(false);
   const [columnFilters, setColumnFilters] = useState([]);
   const [globalFilter, setGlobalFilter] = useState('');
+  const [refresh,setRefersh] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +56,7 @@ export const StoreListPage = () => {
   
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columnFilters, globalFilter]);
+  }, [columnFilters, globalFilter,refresh]);
   
 
 
@@ -120,7 +121,7 @@ export const StoreListPage = () => {
         data[row.index] = values;
         setId(row.index);
       }
-
+      setRefersh(true)
       exitEditingMode();
     } catch (error) {
       console.error("API request error:", error);
