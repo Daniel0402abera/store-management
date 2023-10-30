@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { MaterialReactTable } from "material-react-table";
 import { Box, IconButton, Typography } from "@mui/material";
 import AddModal from "../common/AddModal";
@@ -112,7 +112,8 @@ export const StoreListPage = () => {
       const updatedData = await makeApiRequest(
         `${baseURL}api/v1/stores/${values.storeId}`,
         "PUT",
-        values
+        values,
+        token
       );
 
       if (updatedData) {
@@ -125,6 +126,21 @@ export const StoreListPage = () => {
       console.error("API request error:", error);
     }
   };
+
+
+  const handleDeleteRow = useCallback(
+    (row) => {
+      if (
+        !window.confirm(`Are you sure you want to delete ${row.getValue('storeName')}`)
+      ) {
+        return;
+      }
+      //send api delete request here, then refetch or update local table data for re-render
+      data?.splice(row.index, 1);
+      setData([...data])
+    },
+    [data],
+  );
   
   return (
     <div>
@@ -212,10 +228,7 @@ export const StoreListPage = () => {
             </IconButton>
             <IconButton
               color="error"
-              onClick={() => {
-                data?.splice(row.index, 1);
-                setData([...data]);
-              }}
+              onClick={() => handleDeleteRow(row)}
             >
               <DeleteIcon />
             </IconButton>
