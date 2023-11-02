@@ -56,7 +56,7 @@ const inventoryPut = `${baseURL}api/v1/store-inventory/${inputValues?.storeInven
   
   const handleAdd = async () => {
     try {
-      console.log(inputValues)
+     
     mutate(inputValues);
       // Handle the response data as needed
     } catch (error) {

@@ -42,10 +42,10 @@ const useStyles = makeStyles((theme) => ({
 export const ItemList = () => {
   const jsonUser = JSON.parse(localStorage.getItem('user'));
   const token = jsonUser?.access_token
-   const [refresh,setRefersh] = useState(false)
+  
   const classes = useStyles();
   const { data, isLoading } = useGet(`${baseURL}api/v1/items`, "");
-  const { data: categories, isLoading: isLoadingCategories, isRefetching } = useGet(
+  const { data: categories, isLoading: isLoadingCategories, } = useGet(
     `${baseURL}api/v1/categories`,
     ""
   );
@@ -111,7 +111,7 @@ export const ItemList = () => {
   );
 
   
-  const [id, setId] = useState(1);
+  
 
   
   const handleSaveRow = async ({ exitEditingMode, row, values }) => {
@@ -129,7 +129,7 @@ export const ItemList = () => {
         newData[row.index] = updatedData; // Replace the edited row with the updated data
         setTableData(newData);
       }
-      setRefersh(true);
+      
       exitEditingMode();
     } catch (error) {
       console.error("API request error:", error);
@@ -208,9 +208,11 @@ export const ItemList = () => {
           tableClassName={classes.tableContainer}
           renderDetailPanel={({ row }) => (
             <Box className={classes.rowBackground}>
-              <Typography>Address: {row.original.address}</Typography>
-              <Typography>City: {row.original.city}</Typography>
-              <Typography>State: {row.original.state}</Typography>
+              <Typography>Item Name: {row.original.itemName}</Typography>
+              <Typography>Category: {row.original.category}</Typography>
+              <Typography>Price: {row.original.price}</Typography>
+              <Typography>Initail Quantity: {row.original.initialQuantity}</Typography>
+              <Typography>Desc: {row.original.description}</Typography>
             </Box>
           )}
           renderRowActions={({ row, table }) => (

@@ -20,9 +20,7 @@ const PurchaseOrderCreationPage = ({handleClose}) => {
   const initialValues = {
     itemId: selectedItemId,
     storeId: selectedStoreId,
-    quantity: "",
-    minThreshold: "",
-    maxThreshold: "",
+    quantity: ""
   };
 
   const formik = useFormik({
@@ -72,24 +70,6 @@ const PurchaseOrderCreationPage = ({handleClose}) => {
             label="Quantity"
             name="quantity"
             value={formik.values.quantity}
-            onChange={formik.handleChange}
-            fullWidth
-          />
-        </div>
-        <div style={{ padding: "10px" }}>
-          <TextField
-            label="minThreshold "
-            name="minThreshold"
-            value={formik.values.minThreshold}
-            onChange={formik.handleChange}
-            fullWidth
-          />
-        </div>
-        <div style={{ padding: "10px" }}>
-          <TextField
-            label="maxThreshold"
-            name="maxThreshold"
-            value={formik.values.maxThreshold}
             onChange={formik.handleChange}
             fullWidth
           />

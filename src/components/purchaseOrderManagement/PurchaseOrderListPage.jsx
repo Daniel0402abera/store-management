@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 export const PurchaseOrderList = () => {
   const jsonUser = JSON.parse(localStorage.getItem('user'));
   const token = jsonUser?.access_token
-  const [refresh,setRefersh] = useState(false)
+  
 
   const classes = useStyles();
   const { data, isLoading } = useGet(`${baseURL}api/v1/purchase-orders`, "");
@@ -117,6 +117,7 @@ export const PurchaseOrderList = () => {
         },
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -136,7 +137,7 @@ export const PurchaseOrderList = () => {
         newData[row.index] = updatedData; // Replace the edited row with the updated data
         setTableData(newData);
       }
-      setRefersh(true);
+      
       exitEditingMode();
     } catch (error) {
       console.error("API request error:", error);
@@ -178,9 +179,11 @@ export const PurchaseOrderList = () => {
           tableClassName={classes.tableContainer}
           renderDetailPanel={({ row }) => (
             <Box className={classes.rowBackground}>
-              <Typography>Address: {row.original.address}</Typography>
-              <Typography>City: {row.original.city}</Typography>
-              <Typography>State: {row.original.state}</Typography>
+              <Typography>Store Name: {row.original.storeName}</Typography>
+              <Typography>item List: {row.original.itemName}</Typography>
+              <Typography>Quantity: {row.original.quantity}</Typography>
+              <Typography>Purchase order Number:{row.original.orderNumber}</Typography>
+              <Typography>Order Status:{row.original.orderStatus}</Typography>
             </Box>
           )}
           renderRowActions={({ row, table }) => (

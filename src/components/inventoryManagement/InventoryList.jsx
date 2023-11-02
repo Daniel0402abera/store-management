@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const InventoryList = () => {
-  const [refresh,setRefersh] = useState(false);
+  
   const jsonUser = JSON.parse(localStorage.getItem('user'));
   const token = jsonUser?.access_token
 
@@ -142,7 +142,7 @@ export const InventoryList = () => {
         newData[row.index] = updatedData; // Replace the edited row with the updated data
         setTableData(newData);
       }
-      setRefersh(true);
+     
       exitEditingMode();
     } catch (error) {
       console.error("API request error:", error);
@@ -183,9 +183,13 @@ export const InventoryList = () => {
           tableClassName={classes.tableContainer}
           renderDetailPanel={({ row }) => (
             <Box className={classes.rowBackground}>
-              <Typography>Address: {row.original.address}</Typography>
-              <Typography>City: {row.original.city}</Typography>
-              <Typography>State: {row.original.state}</Typography>
+              <Typography>Store Name: {row.original.store.storeName}</Typography>
+              <Typography>Item Name: {row.original.item.itemName}</Typography>
+              <Typography>Price: {row.original.item.price}</Typography>
+              <Typography>Item Category:{row.original.item.category}</Typography>
+              <Typography>Quantity:{row.original.quantity}</Typography>
+              <Typography>Min Threshold:{row.original.minThreshHold}</Typography>
+              <Typography>Max Threshold :{row.original.maxThreshHold}</Typography>
             </Box>
           )}
           renderRowActions={({ row, table }) => (

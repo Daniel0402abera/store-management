@@ -13,7 +13,7 @@ const putData = async (endpoint, token, data) => {
 
     return response;
   } catch (error) {
-    console.log(error)
+    
     throw new Error(error.response.data.message);
   }
 };

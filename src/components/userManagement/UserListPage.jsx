@@ -5,7 +5,6 @@ import AddModal from "../common/AddModal";
 import {
   Edit as EditIcon,
   Delete as DeleteIcon,
-  Email as EmailIcon,
 } from "@mui/icons-material";
 // import { data as initialData } from './makeData';
 import { baseURL } from "../../constants";
@@ -16,7 +15,7 @@ import makeApiRequest from "../../services/req";
 export const UserListPage = () => {
   const jsonUser = JSON.parse(localStorage.getItem('user'));
   const token = jsonUser?.access_token
-  const [,setRefersh] = useState(false)
+ 
 
   const {data:data1,isLoading} = useGet(`${baseURL}api/v1/users`,'');
   const {data:roles,isLoading:isLoadingRoles} = useGet(`${baseURL}api/v1/roles`,);
@@ -146,9 +145,10 @@ export const UserListPage = () => {
 
 
   const handleSaveRow = async ({ exitEditingMode, row, values }) => {
+    console.log(values)
     const formatedData = {
       "status": `${values.userStatus}`,
-      "roleId":`${values.id}`
+      "roleId":`${values.role}`
   }
     try {
       const updatedData = await makeApiRequest(
@@ -164,7 +164,7 @@ export const UserListPage = () => {
         newData[row.index] = updatedData; // Replace the edited row with the updated data
         setTableData(newData);
       }
-      setRefersh(true);
+      
       exitEditingMode();
     } catch (error) {
       console.error("API request error:", error);
@@ -221,17 +221,6 @@ export const UserListPage = () => {
         )}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
-            <IconButton
-              color="primary"
-              onClick={() =>
-                window.open(
-                  `mailto:kevinvandy@mailinator.com?subject=Hello ${row.original.firstName}!`
-                )
-              }
-            >
-              <EmailIcon />
-            </IconButton>
-            
             <IconButton
               color="secondary"
               onClick={() => {

@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import usePost from "../../services/usePost";
-import { token } from "../../constants";
+
 import { InputLabel } from "@mui/material";
 import AddButton from "./AddButton";
 
@@ -44,9 +44,7 @@ export default function AddModal({
     setOpen(false);
   };
   const { mutate, error, data, isError, isSuccess, isLoading } = usePost(
-    endpoint,
-    `${token}`,
-    inputValues
+    endpoint
   );
 
   const handleAdd = async () => {

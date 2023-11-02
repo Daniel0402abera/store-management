@@ -5,7 +5,6 @@ import Modal from "@mui/material/Modal";
 import InventoryList from "./InventoryList";
 import AddItemsToStorePage from "./AddItemsToStorePage";
 import AddButton from "../common/AddButton";
-import AddModal from "../common/AddModal";
 import useGet from "../../services/useGet";
 import { baseURL } from "../../constants";
 import EditModal from "../common/EditModal";
