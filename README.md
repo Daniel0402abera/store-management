@@ -38,7 +38,7 @@ This repository contains the frontend codebase for the Store Management applicat
 
 ## Update Docker Configuration 
  ## Dockerfile (Dockerfile)
-FROM node:17-alpine
+<!-- FROM node:17-alpine
 
 WORKDIR /store-management  # Update this line to match your project name
 
@@ -50,11 +50,11 @@ COPY . .
 
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "start" ] -->
 
 ## docker-compose.yml (docker-compose.yml)
 
-version: "3.8"
+<!-- version: "3.8"
 services:
   storeapp:
     build: ./store-management  # Update this line to match your project name
@@ -62,7 +62,7 @@ services:
     ports:
       - '3000:3000' 
     stdin_open: true
-    tty: true
+    tty: true -->
 
 
  ## Build Docker Image
