@@ -41,7 +41,7 @@ This repository contains the frontend codebase for the Store Management applicat
  -------------------------------------------------------------------------------------------
 FROM node:17-alpine
 
-WORKDIR /store-management  # Update this line to match your project name
+WORKDIR /project name  ## Update this line to match your project name
 
 COPY package.json .
 
@@ -58,7 +58,7 @@ CMD [ "npm", "start" ]
 version: "3.8"
 services:
   storeapp:
-    build: ./store-management  # Update this line to match your project name
+    build: ../project name  ## Update this line to match your project name
     container_name: store_c
     ports:
       - '3000:3000' 
