@@ -1,75 +1,83 @@
-# Getting Started with Create React App
+## Store Management Frontend React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This repository contains the frontend codebase for the Store Management application. The app can be configured to connect to either a local backend server or a deployed server. Additionally, instructions for running the app using Docker are provided.
 
 
+## Prerequisites
+
+- Node.js and npm installed on your system.
+- Basic knowledge of React and Docker.
+- Access to the Store Management backend API (local or deployed).
+
+## Configuration Options:
+## Backend Configuration:
+## Local Server:
+
+- If you want to configure the app to connect to a local backend server, open the constants.js file.
+  Update the baseURL constant to "http://localhost:9191".
+
+## Deployed Server:
+
+- If you want to configure the app to connect to a deployed backend server, open the constants.js file.
+  Update the baseURL constant to 'https://storemanagementapi.onrender.com/'.
 
 
+## Running the App:
+## Local Development:
 
+- Navigate to your project directory in the terminal.
+- Run npm install to install dependencies.
+- Start the development server with npm start.
+- Access the app at http://localhost:3000.
+
+## Using Docker:
+- Ensure you have Docker installed and running on your system.
+- Navigate to the directory containing your Dockerfile and docker-compose.yml file.
+- Run docker-compose up to build the Docker image and start the app container.
+- Access the app at http://localhost:3000.
+
+## Update Docker Configuration 
+ ## Dockerfile (Dockerfile)
+FROM node:17-alpine
+
+WORKDIR /store-management  # Update this line to match your project name
+
+COPY package.json .
+
+RUN npm install --legacy-peer-deps
+
+COPY . .
+
+EXPOSE 3000
+
+CMD [ "npm", "start" ]
+
+## docker-compose.yml (docker-compose.yml)
+
+version: "3.8"
+services:
+  storeapp:
+    build: ./store-management  # Update this line to match your project name
+    container_name: store_c
+    ports:
+      - '3000:3000' 
+    stdin_open: true
+    tty: true
+
+
+ ## Build Docker Image
+ - Navigate to the project directory and build the Docker image using the updated Dockerfile and       docker-compose.yml:
+
+docker-compose build
+
+## Start Docker Containers
+- Start the Docker containers to run the Store Management app locally:
+docker-compose up -d
+
+## Access the App
+Once the containers are up and running, you can access the Store Management app by opening your web browser and visiting http://localhost:3000.
+
+## For Login use defualt admin 
+
+- userName: john
+- password: 123456
