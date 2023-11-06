@@ -59,7 +59,7 @@ version: "3.8"
 services:
   storeapp:
     build: ../project name  ## Update this line to match your project name
-    container_name: store_c
+    container_name: java
     ports:
       - '3000:3000' 
     stdin_open: true
